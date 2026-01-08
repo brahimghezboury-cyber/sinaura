@@ -13,68 +13,61 @@ const ARStepByStepUI = () => {
   }, []);
 
   const steps = [
-    { label: "Locate component", completed: true },
-    { label: "Remove cover panel", completed: true },
-    { label: "Replace fuse unit", completed: false },
-    { label: "Test connection", completed: false },
+    { label: "Locate component" },
+    { label: "Remove cover panel" },
+    { label: "Replace fuse unit" },
+    { label: "Test connection" },
   ];
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl p-5 flex flex-col border border-white/10 rounded-3xl">
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-7 h-7 rounded-lg bg-violet-500/20 flex items-center justify-center">
-          <Eye className="w-3.5 h-3.5 text-violet-400" />
-        </div>
-        <span className="text-white/90 font-medium text-xs">AR Guidance</span>
-        <span className="ml-auto text-white/40 text-[10px]">Step {currentStep + 1}/4</span>
-      </div>
-
-      {/* AR Viewfinder Mock */}
-      <div className="flex-1 relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl border border-white/5 overflow-hidden mb-3">
-        {/* Scanning corners */}
-        <div className="absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 border-violet-400/60 rounded-tl" />
-        <div className="absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 border-violet-400/60 rounded-tr" />
-        <div className="absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 border-violet-400/60 rounded-bl" />
-        <div className="absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 border-violet-400/60 rounded-br" />
+    <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col rounded-2xl">
+      {/* AR Viewfinder */}
+      <div className="flex-1 relative bg-white rounded-2xl shadow-sm overflow-hidden mb-4">
+        {/* Corners */}
+        <div className="absolute top-3 left-3 w-8 h-8 border-l-3 border-t-3 border-violet-500 rounded-tl-lg" />
+        <div className="absolute top-3 right-3 w-8 h-8 border-r-3 border-t-3 border-violet-500 rounded-tr-lg" />
+        <div className="absolute bottom-3 left-3 w-8 h-8 border-l-3 border-b-3 border-violet-500 rounded-bl-lg" />
+        <div className="absolute bottom-3 right-3 w-8 h-8 border-r-3 border-b-3 border-violet-500 rounded-br-lg" />
         
-        {/* Highlight box */}
+        {/* Target */}
         <motion.div
           animate={{ 
-            opacity: [0.3, 0.8, 0.3],
+            opacity: [0.5, 1, 0.5],
             scale: [0.98, 1.02, 0.98]
           }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute inset-4 border-2 border-dashed border-cyan-400/50 rounded-lg flex items-center justify-center"
+          className="absolute inset-8 border-2 border-dashed border-cyan-500 rounded-xl flex items-center justify-center"
         >
-          <span className="text-cyan-400 text-[10px] bg-slate-900/80 px-2 py-1 rounded">Target Area</span>
+          <div className="bg-cyan-500/10 px-3 py-1.5 rounded-lg">
+            <span className="text-cyan-600 text-xs font-medium">Target Component</span>
+          </div>
         </motion.div>
       </div>
 
-      {/* Steps List */}
-      <div className="space-y-1.5">
+      {/* Steps */}
+      <div className="grid grid-cols-4 gap-2">
         {steps.map((step, index) => (
           <motion.div
             key={index}
             animate={{
-              backgroundColor: index === currentStep ? "rgba(139, 92, 246, 0.15)" : "transparent",
-              scale: index === currentStep ? 1.02 : 1
+              scale: index === currentStep ? 1.05 : 1,
             }}
-            className="flex items-center gap-2 p-2 rounded-lg"
+            className={`p-2 rounded-xl text-center transition-colors ${
+              index < currentStep ? "bg-emerald-100" :
+              index === currentStep ? "bg-violet-100" :
+              "bg-white"
+            }`}
           >
-            <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-medium ${
+            <div className={`w-6 h-6 mx-auto mb-1 rounded-full flex items-center justify-center text-xs font-bold ${
               index < currentStep ? "bg-emerald-500 text-white" :
               index === currentStep ? "bg-violet-500 text-white" :
-              "bg-white/10 text-white/40"
+              "bg-slate-200 text-slate-500"
             }`}>
-              {index < currentStep ? <CheckCircle2 className="w-3 h-3" /> : index + 1}
+              {index < currentStep ? <CheckCircle2 className="w-4 h-4" /> : index + 1}
             </div>
-            <span className={`text-xs ${index <= currentStep ? "text-white/90" : "text-white/40"}`}>
-              {step.label}
-            </span>
-            {index === currentStep && (
-              <ArrowRight className="w-3 h-3 text-violet-400 ml-auto" />
-            )}
+            <p className={`text-[10px] leading-tight ${
+              index <= currentStep ? "text-slate-700" : "text-slate-400"
+            }`}>{step.label}</p>
           </motion.div>
         ))}
       </div>
