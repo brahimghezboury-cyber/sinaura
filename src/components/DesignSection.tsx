@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Mic, Camera, X, MessageCircle, Sparkles, User, History, FileText, Zap, Radio, Settings, RotateCcw } from "lucide-react";
 import glassesProduct from "@/assets/glasses-product.png";
 import SpeechToTextUI from "./SpeechToTextUI";
+import ARCameraScanUI from "./ARCameraScanUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
@@ -242,6 +243,7 @@ const DesignSection = () => {
               title: "AR Camera Scan",
               description: "Point your camera at any equipment to instantly identify components, errors, and get diagnostic overlays.",
               icon: Camera,
+              customUI: <ARCameraScanUI />,
             },
             {
               title: "Smart Diagnostics",
