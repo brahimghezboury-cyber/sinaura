@@ -5,6 +5,12 @@ import { Mic, Camera, X, MessageCircle, Sparkles, User, History, FileText, Zap, 
 import glassesProduct from "@/assets/glasses-product.png";
 import SpeechToTextUI from "./SpeechToTextUI";
 import ARCameraScanUI from "./ARCameraScanUI";
+import SmartDiagnosticsUI from "./SmartDiagnosticsUI";
+import RequestHistoryUI from "./RequestHistoryUI";
+import TechnicalManualsUI from "./TechnicalManualsUI";
+import RealTimeAlertsUI from "./RealTimeAlertsUI";
+import IoTIntegrationUI from "./IoTIntegrationUI";
+import CustomSettingsUI from "./CustomSettingsUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
@@ -281,42 +287,42 @@ const DesignSection = () => {
                 description: "AI-powered error code analysis provides ",
                 highlight: "step-by-step repair guidance",
                 descriptionEnd: " with root cause identification.",
-                icon: Sparkles,
+                customUI: <SmartDiagnosticsUI />,
               },
               {
                 title: "Request History",
                 description: "Access your ",
                 highlight: "complete conversation history",
                 descriptionEnd: ". Review past diagnostics and solutions anytime.",
-                icon: History,
+                customUI: <RequestHistoryUI />,
               },
               {
                 title: "Technical Manuals",
                 description: "Automatically parse equipment manuals and generate ",
                 highlight: "actionable procedures",
                 descriptionEnd: " for maintenance and repair.",
-                icon: FileText,
+                customUI: <TechnicalManualsUI />,
               },
               {
                 title: "Real-Time Alerts",
                 description: "Receive instant notifications about equipment status, anomalies, and ",
                 highlight: "predicted failures",
                 descriptionEnd: ".",
-                icon: Zap,
+                customUI: <RealTimeAlertsUI />,
               },
               {
                 title: "IoT Integration",
                 description: "Connect with PLCs, sensors, and legacy systems for ",
                 highlight: "unified data access",
                 descriptionEnd: " across your plant.",
-                icon: Radio,
+                customUI: <IoTIntegrationUI />,
               },
               {
                 title: "Custom Settings",
                 description: "Configure language, notifications, and personalize your ",
                 highlight: "AriA™ experience",
                 descriptionEnd: " for your workflow.",
-                icon: Settings,
+                customUI: <CustomSettingsUI />,
               },
             ].map((feature, index) => (
               <motion.div
@@ -326,17 +332,11 @@ const DesignSection = () => {
                 transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                 className="flex-shrink-0 first:ml-4 last:mr-4"
               >
-                {/* Large card with UI or icon */}
+                {/* Large card with UI */}
                 <div className="w-[500px] md:w-[580px] h-[380px] md:h-[420px] bg-muted/50 rounded-3xl overflow-hidden mb-6 relative">
-                  {feature.customUI ? (
-                    <div className="w-full h-full">
-                      {feature.customUI}
-                    </div>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-muted/30">
-                      {feature.icon && <feature.icon className="w-24 h-24 text-muted-foreground/30" />}
-                    </div>
-                  )}
+                  <div className="w-full h-full">
+                    {feature.customUI}
+                  </div>
                 </div>
                 
                 {/* Description below card */}
