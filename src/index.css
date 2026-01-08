@@ -211,6 +211,81 @@
     transform: translateX(3px);
   }
 
+  /* Liquid Glass Effect */
+  .liquid-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .liquid-glass-dark {
+    background: linear-gradient(
+      145deg,
+      rgba(30, 35, 40, 0.95) 0%,
+      rgba(20, 25, 30, 0.9) 100%
+    );
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0, 200, 255, 0.3);
+    box-shadow: 
+      0 0 40px rgba(0, 200, 255, 0.15),
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .liquid-glass-light {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(250, 252, 255, 0.9) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Chat bubble styles */
+  .chat-bubble-user {
+    background: linear-gradient(135deg, hsl(200 80% 45%) 0%, hsl(210 90% 50%) 100%);
+    color: white;
+    border-radius: 20px 20px 4px 20px;
+  }
+
+  .chat-bubble-aria {
+    background: linear-gradient(
+      145deg,
+      rgba(40, 45, 55, 0.95) 0%,
+      rgba(30, 35, 45, 0.9) 100%
+    );
+    border-radius: 20px 20px 20px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Glow button */
+  .btn-glow {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, hsl(200 90% 50%) 0%, hsl(220 85% 55%) 100%);
+    box-shadow: 0 4px 20px rgba(0, 150, 255, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .btn-glow:hover {
+    box-shadow: 0 6px 30px rgba(0, 150, 255, 0.6);
+    transform: translateY(-2px);
+  }
+
   /* Floating animation */
   @keyframes float {
     0%, 100% {
