@@ -1,109 +1,89 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import heroGlasses from "@/assets/aria-hero-glasses.png";
+import factoryImage from "@/assets/factory-ar-overlay.png";
 
 const TechnologySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="technology" className="relative py-32 md:py-48 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[1000px] h-[600px] bg-primary/8 rounded-full blur-[150px] pointer-events-none" />
+    <section id="technology" ref={ref} className="section-gray py-24 md:py-32">
+      <div className="container mx-auto">
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="headline mb-4">
+            Unified Intelligence
+          </h2>
+          <p className="subheadline max-w-2xl mx-auto">
+            One platform. Infinite possibilities.
+          </p>
+        </motion.div>
 
-      <div ref={ref} className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left side - Image */}
+        {/* Large image */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="rounded-3xl overflow-hidden mb-16"
+        >
+          <img
+            src={factoryImage}
+            alt="Factory with AR overlay"
+            className="w-full h-auto"
+          />
+        </motion.div>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-lg md:text-xl text-center max-w-3xl mx-auto mb-16 leading-relaxed text-muted-foreground"
+        >
+          AriA™ connects PLCs, IoT devices, legacy systems, and technical documents 
+          into one unified environment. Get an intuitive view of machines, components, 
+          alarms, and operational status across your entire plant.
+        </motion.p>
+
+        {/* Two column feature highlight */}
+        <div className="grid md:grid-cols-2 gap-8">
           <motion.div
-            initial={{ opacity: 0, x: -60 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1 }}
-            className="relative"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="feature-card p-10"
           >
-            <div className="relative float">
-              <img
-                src={heroGlasses}
-                alt="AriA™ Technology"
-                className="w-full h-auto rounded-3xl"
-              />
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-primary/30 blur-[100px] -z-10 scale-75" />
+            <h3 className="text-2xl font-semibold mb-4">Edge Computing</h3>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              All processing happens locally, ensuring sub-10ms response times 
+              and keeping your sensitive operational data secure on-premise.
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-semibold">&lt;10ms</span>
+              <span className="text-sm text-muted-foreground">response time</span>
             </div>
-
-            {/* Floating specs cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="absolute -bottom-6 -right-6 glass-card px-5 py-4"
-            >
-              <div className="text-xs text-muted-foreground mb-1">Response Time</div>
-              <div className="text-2xl font-bold gradient-text">&lt;10ms</div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="absolute -top-6 -left-6 glass-card px-5 py-4"
-            >
-              <div className="text-xs text-muted-foreground mb-1">AI Accuracy</div>
-              <div className="text-2xl font-bold gradient-text">99.2%</div>
-            </motion.div>
           </motion.div>
 
-          {/* Right side - Content */}
           <motion.div
-            initial={{ opacity: 0, x: 60 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="feature-card p-10"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Built with
-              <br />
-              <span className="gradient-text">breakthrough technology.</span>
-            </h2>
-
-            <p className="text-lg text-muted-foreground mb-10">
-              AriA™ combines proprietary AI algorithms, advanced computer vision, 
-              and edge computing to deliver real-time intelligence where it matters most.
+            <h3 className="text-2xl font-semibold mb-4">AI Accuracy</h3>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Proprietary machine learning models trained on industrial datasets 
+              deliver unmatched prediction accuracy for maintenance operations.
             </p>
-
-            {/* Tech specs */}
-            <div className="space-y-6">
-              {[
-                {
-                  label: "Proprietary ML Models",
-                  description: "Custom-trained on industrial datasets for unmatched accuracy",
-                },
-                {
-                  label: "Edge Computing",
-                  description: "Local processing ensures low latency and data security",
-                },
-                {
-                  label: "Multi-modal AI",
-                  description: "Combines vision, voice, and sensor data for holistic analysis",
-                },
-                {
-                  label: "Universal Connectivity",
-                  description: "Works with any PLC, SCADA, or legacy system",
-                },
-              ].map((spec, index) => (
-                <motion.div
-                  key={spec.label}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                  className="flex items-start gap-4 group"
-                >
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0 group-hover:scale-150 transition-transform" />
-                  <div>
-                    <h4 className="font-semibold mb-1">{spec.label}</h4>
-                    <p className="text-sm text-muted-foreground">{spec.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-semibold">99.2%</span>
+              <span className="text-sm text-muted-foreground">prediction accuracy</span>
             </div>
           </motion.div>
         </div>

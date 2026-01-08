@@ -1,40 +1,54 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-border/50"
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "nav-blur border-b border-border/50" : "bg-transparent"
+      }`}
     >
-      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-semibold tracking-tight">
-            SINAURA<span className="text-muted-foreground">™</span>
-          </span>
+      <div className="container mx-auto h-12 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <a href="/" className="text-sm font-medium opacity-80 hover:opacity-100 transition-opacity">
+            SINAURA
+          </a>
         </div>
 
         <div className="hidden md:flex items-center gap-8">
-          <a href="#overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <a href="#overview" className="text-xs opacity-80 hover:opacity-100 transition-opacity">
             Overview
           </a>
-          <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <a href="#design" className="text-xs opacity-80 hover:opacity-100 transition-opacity">
+            Design
+          </a>
+          <a href="#features" className="text-xs opacity-80 hover:opacity-100 transition-opacity">
             Features
           </a>
-          <a href="#technology" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <a href="#technology" className="text-xs opacity-80 hover:opacity-100 transition-opacity">
             Technology
-          </a>
-          <a href="#benefits" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Benefits
           </a>
         </div>
 
-        <button className="glass-button text-sm px-6 py-2.5">
-          Contact Sales
-        </button>
+        <div className="flex items-center gap-4">
+          <a href="#demo" className="text-xs opacity-80 hover:opacity-100 transition-opacity hidden sm:block">
+            Book a demo
+          </a>
+          <a href="#contact" className="btn-primary text-xs py-2 px-4">
+            Contact
+          </a>
+        </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 
