@@ -20,7 +20,7 @@ const SmartFaultDiagnosisUI = () => {
   }, [phase === "alert"]);
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl p-5 flex flex-col rounded-2xl border border-white/10">
+    <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col items-center justify-center rounded-2xl">
       <AnimatePresence mode="wait">
         {/* Phase 1: Alert Detected */}
         {phase === "alert" && (
@@ -29,17 +29,17 @@ const SmartFaultDiagnosisUI = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col items-center justify-center"
+            className="flex flex-col items-center justify-center"
           >
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
-              className="w-20 h-20 rounded-full bg-red-500/20 flex items-center justify-center mb-4 border border-red-500/30"
+              className="w-24 h-24 rounded-full bg-red-100 flex items-center justify-center mb-5 border-2 border-red-200"
             >
-              <AlertTriangle className="w-10 h-10 text-red-400" />
+              <AlertTriangle className="w-12 h-12 text-red-500" />
             </motion.div>
-            <p className="text-red-400 font-semibold text-lg mb-1">Allarme Rilevato</p>
-            <p className="text-white/50 text-sm text-center">Errore FMO1201<br/>Termocoppia Camera 3</p>
+            <p className="text-red-600 font-semibold text-xl mb-2">Allarme Rilevato</p>
+            <p className="text-slate-500 text-sm text-center">Errore FMO1201<br/>Termocoppia Camera 3</p>
           </motion.div>
         )}
 
@@ -50,19 +50,17 @@ const SmartFaultDiagnosisUI = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col items-center justify-center"
+            className="flex flex-col items-center justify-center"
           >
-            <div className="relative mb-4">
+            <div className="relative mb-5">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                className="w-16 h-16 rounded-full border-2 border-cyan-500/30 border-t-cyan-400"
+                className="w-20 h-20 rounded-full border-4 border-cyan-200 border-t-cyan-500"
               />
-              <Sparkles className="absolute inset-0 m-auto w-6 h-6 text-cyan-400" />
+              <Sparkles className="absolute inset-0 m-auto w-8 h-8 text-cyan-500" />
             </div>
-            <div className="flex items-center gap-2 text-cyan-400">
-              <span className="font-medium text-sm">Aria Engine sta analizzando...</span>
-            </div>
+            <p className="text-cyan-600 font-medium text-lg">Aria Engine sta analizzando...</p>
           </motion.div>
         )}
 
@@ -70,10 +68,11 @@ const SmartFaultDiagnosisUI = () => {
         {(phase === "chat" || phase === "steps") && (
           <motion.div
             key="chat"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col"
+            className="w-full max-w-sm bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-3xl p-5 flex flex-col border border-white/10 shadow-2xl"
+            style={{ height: "380px" }}
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
@@ -104,6 +103,7 @@ const SmartFaultDiagnosisUI = () => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
                 className="flex justify-start"
               >
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl rounded-tl-sm px-4 py-3 max-w-[90%] border border-white/10">
