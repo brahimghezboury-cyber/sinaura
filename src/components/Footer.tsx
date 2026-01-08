@@ -1,30 +1,25 @@
 const Footer = () => {
   return (
-    <footer className="relative border-t border-border/50 py-16">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-semibold tracking-tight">
-                SINAURA<span className="text-muted-foreground">™</span>
-              </span>
-            </div>
-            <p className="text-sm text-muted-foreground mb-4">
+    <footer className="py-12 bg-background border-t border-border">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+          {/* Column 1 */}
+          <div className="col-span-2 md:col-span-1">
+            <h4 className="text-xs font-semibold mb-4 text-muted-foreground">
+              SINAURA
+            </h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
               Revolutionizing industrial operations with AI and augmented reality.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              © 2025 SINAURA™. All rights reserved.
             </p>
           </div>
 
-          {/* Links */}
+          {/* Product */}
           <div>
-            <h4 className="font-semibold mb-4">Product</h4>
+            <h4 className="text-xs font-semibold mb-4">Product</h4>
             <ul className="space-y-3">
               {["Overview", "Features", "Technology", "Pricing"].map((item) => (
                 <li key={item}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                     {item}
                   </a>
                 </li>
@@ -32,12 +27,13 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Company */}
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="text-xs font-semibold mb-4">Company</h4>
             <ul className="space-y-3">
-              {["About", "Careers", "Press", "Contact"].map((item) => (
+              {["About Us", "Careers", "Press", "Contact"].map((item) => (
                 <li key={item}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                     {item}
                   </a>
                 </li>
@@ -45,12 +41,27 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Resources */}
           <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
+            <h4 className="text-xs font-semibold mb-4">Resources</h4>
             <ul className="space-y-3">
               {["Documentation", "Case Studies", "Blog", "Support"].map((item) => (
                 <li key={item}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="text-xs font-semibold mb-4">Legal</h4>
+            <ul className="space-y-3">
+              {["Privacy", "Terms", "Cookies", "Security"].map((item) => (
+                <li key={item}>
+                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                     {item}
                   </a>
                 </li>
@@ -60,20 +71,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            AriA™ is a registered trademark of SINAURA Group.
+            © 2025 SINAURA™. All rights reserved. AriA™ is a registered trademark.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Terms of Service
-            </a>
-            <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Cookies
-            </a>
+          <div className="flex items-center gap-4">
+            <span className="text-xs text-muted-foreground">Italy</span>
           </div>
         </div>
       </div>
