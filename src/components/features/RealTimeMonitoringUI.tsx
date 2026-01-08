@@ -21,50 +21,46 @@ const RealTimeMonitoringUI = () => {
   }, []);
 
   const gauges = [
-    { icon: Gauge, label: "RPM", value: metrics.rpm, unit: "", color: "text-cyan-400", max: 2000 },
-    { icon: Thermometer, label: "Temp", value: metrics.temp, unit: "°C", color: "text-orange-400", max: 100 },
-    { icon: Zap, label: "Power", value: metrics.power, unit: "%", color: "text-emerald-400", max: 100 },
+    { icon: Gauge, label: "RPM", value: metrics.rpm, unit: "", color: "text-cyan-600", bgColor: "bg-cyan-100", max: 2000 },
+    { icon: Thermometer, label: "Temperature", value: metrics.temp, unit: "°C", color: "text-orange-600", bgColor: "bg-orange-100", max: 100 },
+    { icon: Zap, label: "Power", value: metrics.power, unit: "%", color: "text-emerald-600", bgColor: "bg-emerald-100", max: 100 },
   ];
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl p-5 flex flex-col border border-white/10 rounded-3xl">
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-7 h-7 rounded-lg bg-cyan-500/20 flex items-center justify-center">
-          <Activity className="w-3.5 h-3.5 text-cyan-400" />
-        </div>
-        <span className="text-white/90 font-medium text-xs">Live Monitoring</span>
-        <div className="ml-auto flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-emerald-400 text-[10px]">Live</span>
-        </div>
+    <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col rounded-2xl">
+      {/* Live indicator */}
+      <div className="flex items-center justify-end gap-2 mb-4">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <span className="text-emerald-600 text-xs font-medium">Live</span>
       </div>
 
-      {/* Metrics Grid */}
+      {/* Metrics */}
       <div className="flex-1 flex flex-col justify-center gap-3">
         {gauges.map((gauge, index) => (
           <motion.div
             key={gauge.label}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="p-3 bg-white/5 rounded-xl border border-white/5"
+            className="p-4 bg-white rounded-2xl shadow-sm"
           >
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <gauge.icon className={`w-4 h-4 ${gauge.color}`} />
-                <span className="text-white/60 text-xs">{gauge.label}</span>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-xl ${gauge.bgColor} flex items-center justify-center`}>
+                  <gauge.icon className={`w-5 h-5 ${gauge.color}`} />
+                </div>
+                <span className="text-slate-600 text-sm font-medium">{gauge.label}</span>
               </div>
               <motion.span 
                 key={gauge.value}
                 initial={{ scale: 1.1 }}
                 animate={{ scale: 1 }}
-                className={`text-sm font-semibold ${gauge.color}`}
+                className={`text-xl font-bold ${gauge.color}`}
               >
                 {gauge.value}{gauge.unit}
               </motion.span>
             </div>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
               <motion.div
                 animate={{ width: `${(gauge.value / gauge.max) * 100}%` }}
                 transition={{ duration: 0.3 }}

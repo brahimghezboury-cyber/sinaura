@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { TrendingUp, AlertTriangle, Clock, Activity } from "lucide-react";
+import { TrendingUp, Clock, Activity } from "lucide-react";
 
 const FailureForecastingUI = () => {
   const [riskLevel, setRiskLevel] = useState(35);
@@ -16,62 +16,72 @@ const FailureForecastingUI = () => {
   }, []);
 
   const getRiskColor = (level: number) => {
-    if (level < 40) return { bg: "bg-emerald-500", text: "text-emerald-400", label: "Low Risk" };
-    if (level < 65) return { bg: "bg-amber-500", text: "text-amber-400", label: "Medium Risk" };
-    return { bg: "bg-red-500", text: "text-red-400", label: "High Risk" };
+    if (level < 40) return { bg: "bg-emerald-500", text: "text-emerald-600", light: "bg-emerald-100", label: "Low Risk" };
+    if (level < 65) return { bg: "bg-amber-500", text: "text-amber-600", light: "bg-amber-100", label: "Medium" };
+    return { bg: "bg-red-500", text: "text-red-600", light: "bg-red-100", label: "High Risk" };
   };
 
   const risk = getRiskColor(riskLevel);
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl p-5 flex flex-col border border-white/10 rounded-3xl">
-      {/* Header */}
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-7 h-7 rounded-lg bg-orange-500/20 flex items-center justify-center">
-          <TrendingUp className="w-3.5 h-3.5 text-orange-400" />
-        </div>
-        <span className="text-white/90 font-medium text-xs">Failure Forecast</span>
-      </div>
-
-      {/* Risk Meter */}
-      <div className="flex-1 flex flex-col justify-center">
-        <div className="text-center mb-4">
+    <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col items-center justify-center rounded-2xl">
+      {/* Circular Gauge */}
+      <div className="relative w-36 h-36 mb-6">
+        <svg className="w-full h-full -rotate-90">
+          <circle
+            cx="72"
+            cy="72"
+            r="64"
+            stroke="#e5e7eb"
+            strokeWidth="12"
+            fill="none"
+          />
+          <motion.circle
+            cx="72"
+            cy="72"
+            r="64"
+            stroke="currentColor"
+            strokeWidth="12"
+            fill="none"
+            strokeLinecap="round"
+            className={risk.text}
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: riskLevel / 100 }}
+            transition={{ duration: 0.5 }}
+            style={{ 
+              strokeDasharray: "402",
+              strokeDashoffset: `${402 - (402 * riskLevel / 100)}`
+            }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span 
             key={riskLevel}
             initial={{ scale: 1.2, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className={`text-3xl font-bold ${risk.text}`}
+            className={`text-4xl font-bold ${risk.text}`}
           >
             {riskLevel}%
           </motion.span>
-          <p className={`text-xs ${risk.text} mt-1`}>{risk.label}</p>
+          <span className={`text-xs font-medium ${risk.text}`}>{risk.label}</span>
         </div>
+      </div>
 
-        {/* Progress bar */}
-        <div className="h-2 bg-white/10 rounded-full overflow-hidden mb-4">
-          <motion.div
-            animate={{ width: `${riskLevel}%` }}
-            transition={{ duration: 0.5 }}
-            className={`h-full ${risk.bg} rounded-full`}
-          />
+      {/* Predictions */}
+      <div className="w-full max-w-xs space-y-2">
+        <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-slate-400" />
+            <span className="text-slate-600 text-sm">Next maintenance</span>
+          </div>
+          <span className="text-cyan-600 text-sm font-semibold">14 days</span>
         </div>
-
-        {/* Predictions */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between p-2 bg-white/5 rounded-lg">
-            <div className="flex items-center gap-2">
-              <Clock className="w-3.5 h-3.5 text-white/40" />
-              <span className="text-white/60 text-xs">Next maintenance</span>
-            </div>
-            <span className="text-cyan-400 text-xs font-medium">14 days</span>
+        <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-slate-400" />
+            <span className="text-slate-600 text-sm">Predicted failure</span>
           </div>
-          <div className="flex items-center justify-between p-2 bg-white/5 rounded-lg">
-            <div className="flex items-center gap-2">
-              <Activity className="w-3.5 h-3.5 text-white/40" />
-              <span className="text-white/60 text-xs">Predicted failure</span>
-            </div>
-            <span className="text-amber-400 text-xs font-medium">~28 days</span>
-          </div>
+          <span className="text-amber-600 text-sm font-semibold">~28 days</span>
         </div>
       </div>
     </div>

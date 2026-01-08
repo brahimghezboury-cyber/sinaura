@@ -91,8 +91,8 @@ const FeaturesSection = () => {
           and predictive analytics that help you prevent downtime and optimize performance.
         </motion.p>
 
-        {/* Feature grid with interactive UIs */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Feature grid - Apple Style with large cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -101,17 +101,15 @@ const FeaturesSection = () => {
               transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
               className="flex flex-col"
             >
-              {/* Interactive UI Card */}
-              <div className="h-[280px] mb-4">
+              {/* Large Card with UI */}
+              <div className="h-[380px] rounded-2xl overflow-hidden mb-5">
                 {feature.ui}
               </div>
               
-              {/* Title and Description */}
-              <h3 className="text-lg font-semibold mb-2" style={{ color: "hsl(0 0% 98%)" }}>
-                {feature.title}
-              </h3>
+              {/* Description below - Apple style with highlighted words */}
               <p className="text-sm leading-relaxed" style={{ color: "hsl(0 0% 60%)" }}>
-                {feature.description}
+                <span className="font-semibold" style={{ color: "hsl(0 0% 98%)" }}>{feature.title}</span>
+                {" "}{feature.description}
               </p>
             </motion.div>
           ))}
