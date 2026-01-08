@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, Focus, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useState, useEffect } from "react";
+import industrialValve from "@/assets/industrial-valve.png";
 
 const ARCameraScanUI = () => {
   const [scanPhase, setScanPhase] = useState<"idle" | "scanning" | "detected" | "analyzing">("idle");
@@ -60,29 +61,12 @@ const ARCameraScanUI = () => {
 
         {/* Camera viewfinder */}
         <div className="flex-1 relative rounded-xl overflow-hidden bg-black/30">
-          {/* Industrial equipment silhouette */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-60">
-            {/* Main valve body */}
-            <div className="relative">
-              {/* Pipes */}
-              <div className="absolute -left-8 top-1/2 -translate-y-1/2 w-8 h-3 bg-gradient-to-r from-slate-500 to-slate-400 rounded-l" />
-              <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-8 h-3 bg-gradient-to-l from-slate-500 to-slate-400 rounded-r" />
-              
-              {/* Valve body */}
-              <div className="w-10 h-8 bg-gradient-to-b from-slate-400 to-slate-500 rounded-lg border border-slate-300/30 flex items-center justify-center">
-                <div className="w-4 h-4 rounded-full bg-slate-600 border-2 border-slate-400" />
-              </div>
-              
-              {/* Valve handle */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-1.5 h-4 bg-slate-400 rounded" />
-              <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-6 h-1.5 bg-gradient-to-r from-red-500 via-red-400 to-red-500 rounded" />
-              
-              {/* Pressure gauge */}
-              <div className="absolute -top-2 -right-5 w-4 h-4 rounded-full bg-slate-600 border border-slate-400 flex items-center justify-center">
-                <div className="w-0.5 h-1.5 bg-red-400 origin-bottom rotate-45" />
-              </div>
-            </div>
-          </div>
+          {/* Real industrial equipment image */}
+          <img 
+            src={industrialValve} 
+            alt="Industrial valve equipment" 
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
+          />
 
           {/* Scanning corners */}
           <motion.div
