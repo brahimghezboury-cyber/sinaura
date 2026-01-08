@@ -3,7 +3,7 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Mic, Camera, X, MessageCircle, Sparkles, User, History, FileText, Zap, Radio, Settings, RotateCcw } from "lucide-react";
 import glassesProduct from "@/assets/glasses-product.png";
-import voiceAssistantImg from "@/assets/voice-assistant-feature.png";
+import SpeechToTextUI from "./SpeechToTextUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
@@ -236,7 +236,7 @@ const DesignSection = () => {
               title: "Voice Assistant",
               description: "Hands-free operation with natural language processing. Just speak your query and get instant AI-powered responses.",
               icon: Mic,
-              image: voiceAssistantImg,
+              customUI: <SpeechToTextUI />,
             },
             {
               title: "AR Camera Scan",
@@ -281,13 +281,9 @@ const DesignSection = () => {
               transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
               className="feature-card w-72 md:w-80 p-6 flex flex-col"
             >
-              {feature.image && (
-                <div className="w-full h-32 rounded-xl overflow-hidden mb-4">
-                  <img 
-                    src={feature.image} 
-                    alt={feature.title}
-                    className="w-full h-full object-cover"
-                  />
+              {feature.customUI && (
+                <div className="w-full h-40 rounded-xl overflow-hidden mb-4">
+                  {feature.customUI}
                 </div>
               )}
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4">
