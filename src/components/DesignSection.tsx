@@ -1,14 +1,36 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { Mic, Camera, X, MessageCircle, Sparkles, User, History, FileText, Zap, Radio, Settings, RotateCcw } from "lucide-react";
+import { useRef, useState } from "react";
+import { Mic, Camera, X, MessageCircle, Sparkles, User, History, FileText, Zap, Radio, Settings, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import glassesProduct from "@/assets/glasses-product.png";
 import SpeechToTextUI from "./SpeechToTextUI";
 import ARCameraScanUI from "./ARCameraScanUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScrollButtons = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    if (carouselRef.current) {
+      const scrollAmount = 600;
+      carouselRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+      setTimeout(checkScrollButtons, 300);
+    }
+  };
 
   return (
     <section id="design" ref={ref} className="section-gray py-24 md:py-32">
@@ -230,78 +252,130 @@ const DesignSection = () => {
           </div>
         </motion.div>
 
-        {/* Feature cards - Horizontal scroll */}
-        <div className="horizontal-scroll px-4 -mx-4">
-          {[
-            {
-              title: "Voice Assistant",
-              description: "Hands-free operation with natural language processing. Just speak your query and get instant AI-powered responses.",
-              icon: Mic,
-              customUI: <SpeechToTextUI />,
-            },
-            {
-              title: "AR Camera Scan",
-              description: "Point your camera at any equipment to instantly identify components, errors, and get diagnostic overlays.",
-              icon: Camera,
-              customUI: <ARCameraScanUI />,
-              large: true,
-            },
-            {
-              title: "Smart Diagnostics",
-              description: "AI-powered error code analysis provides step-by-step repair guidance with root cause identification.",
-              icon: Sparkles,
-            },
-            {
-              title: "Request History",
-              description: "Access your complete conversation history. Review past diagnostics and solutions anytime.",
-              icon: History,
-            },
-            {
-              title: "Technical Manuals",
-              description: "Automatically parse equipment manuals and generate actionable, step-by-step repair procedures.",
-              icon: FileText,
-            },
-            {
-              title: "Real-Time Alerts",
-              description: "Receive instant notifications about equipment status, anomalies, and predicted failures.",
-              icon: Zap,
-            },
-            {
-              title: "IoT Integration",
-              description: "Connect with PLCs, sensors, and legacy systems for unified data access across your plant.",
-              icon: Radio,
-            },
-            {
-              title: "Custom Settings",
-              description: "Configure language, notifications, and personalize your AriA™ experience for your workflow.",
-              icon: Settings,
-            },
-          ].map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              className={`feature-card p-6 flex flex-col ${
-                feature.large ? "w-96 md:w-[420px]" : "w-72 md:w-80"
+        {/* Feature cards - Apple Style Carousel */}
+        <div className="relative">
+          {/* Cards container */}
+          <div 
+            ref={carouselRef}
+            onScroll={checkScrollButtons}
+            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-8"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {[
+              {
+                title: "Voice Assistant",
+                description: "Hands-free operation with ",
+                highlight: "natural language processing",
+                descriptionEnd: ". Just speak your query and get instant AI-powered responses.",
+                customUI: <SpeechToTextUI />,
+              },
+              {
+                title: "AR Camera Scan",
+                description: "Point your camera at any equipment to instantly identify components with ",
+                highlight: "diagnostic overlays",
+                descriptionEnd: " and real-time error detection.",
+                customUI: <ARCameraScanUI />,
+              },
+              {
+                title: "Smart Diagnostics",
+                description: "AI-powered error code analysis provides ",
+                highlight: "step-by-step repair guidance",
+                descriptionEnd: " with root cause identification.",
+                icon: Sparkles,
+              },
+              {
+                title: "Request History",
+                description: "Access your ",
+                highlight: "complete conversation history",
+                descriptionEnd: ". Review past diagnostics and solutions anytime.",
+                icon: History,
+              },
+              {
+                title: "Technical Manuals",
+                description: "Automatically parse equipment manuals and generate ",
+                highlight: "actionable procedures",
+                descriptionEnd: " for maintenance and repair.",
+                icon: FileText,
+              },
+              {
+                title: "Real-Time Alerts",
+                description: "Receive instant notifications about equipment status, anomalies, and ",
+                highlight: "predicted failures",
+                descriptionEnd: ".",
+                icon: Zap,
+              },
+              {
+                title: "IoT Integration",
+                description: "Connect with PLCs, sensors, and legacy systems for ",
+                highlight: "unified data access",
+                descriptionEnd: " across your plant.",
+                icon: Radio,
+              },
+              {
+                title: "Custom Settings",
+                description: "Configure language, notifications, and personalize your ",
+                highlight: "AriA™ experience",
+                descriptionEnd: " for your workflow.",
+                icon: Settings,
+              },
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+                className="flex-shrink-0 first:ml-4 last:mr-4"
+              >
+                {/* Large card with UI or icon */}
+                <div className="w-[500px] md:w-[580px] h-[380px] md:h-[420px] bg-muted/50 rounded-3xl overflow-hidden mb-6 relative">
+                  {feature.customUI ? (
+                    <div className="w-full h-full">
+                      {feature.customUI}
+                    </div>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-muted/30">
+                      {feature.icon && <feature.icon className="w-24 h-24 text-muted-foreground/30" />}
+                    </div>
+                  )}
+                </div>
+                
+                {/* Description below card */}
+                <div className="max-w-[500px] md:max-w-[580px]">
+                  <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                    {feature.description}
+                    <span className="text-foreground font-semibold">{feature.highlight}</span>
+                    {feature.descriptionEnd}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Navigation arrows - centered at bottom */}
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <button
+              onClick={() => scroll("left")}
+              disabled={!canScrollLeft}
+              className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
+                canScrollLeft 
+                  ? "border-border hover:bg-muted cursor-pointer" 
+                  : "border-border/30 text-muted-foreground/30 cursor-not-allowed"
               }`}
             >
-              {feature.customUI && (
-                <div className={`w-full rounded-xl overflow-hidden mb-4 ${
-                  feature.large ? "h-56" : "h-40"
-                }`}>
-                  {feature.customUI}
-                </div>
-              )}
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center mb-4">
-                <feature.icon className="w-5 h-5 text-cyan-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {feature.description}
-              </p>
-            </motion.div>
-          ))}
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              disabled={!canScrollRight}
+              className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
+                canScrollRight 
+                  ? "border-border hover:bg-muted cursor-pointer" 
+                  : "border-border/30 text-muted-foreground/30 cursor-not-allowed"
+              }`}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </section>
