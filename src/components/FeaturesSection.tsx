@@ -2,10 +2,49 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import engineerImage from "@/assets/engineer-ar.png";
+import SmartFaultDiagnosisUI from "./features/SmartFaultDiagnosisUI";
+import ARStepByStepUI from "./features/ARStepByStepUI";
+import FailureForecastingUI from "./features/FailureForecastingUI";
+import RealTimeMonitoringUI from "./features/RealTimeMonitoringUI";
+import DocumentIntelligenceUI from "./features/DocumentIntelligenceUI";
+import KnowHowTransferUI from "./features/KnowHowTransferUI";
 
 const FeaturesSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const features = [
+    {
+      title: "Smart Fault Diagnosis",
+      description: "AI-powered root cause analysis identifies issues in seconds, not hours.",
+      ui: <SmartFaultDiagnosisUI />,
+    },
+    {
+      title: "AR Step-by-Step Guidance",
+      description: "Visual instructions overlaid directly on equipment for error-free repairs.",
+      ui: <ARStepByStepUI />,
+    },
+    {
+      title: "Failure Forecasting",
+      description: "Predict equipment failures days or weeks in advance with 95%+ accuracy.",
+      ui: <FailureForecastingUI />,
+    },
+    {
+      title: "Real-Time Monitoring",
+      description: "Live dashboards show machine health, alerts, and performance metrics.",
+      ui: <RealTimeMonitoringUI />,
+    },
+    {
+      title: "Document Intelligence",
+      description: "Automatically parse manuals and generate actionable repair procedures.",
+      ui: <DocumentIntelligenceUI />,
+    },
+    {
+      title: "Know-How Transfer",
+      description: "Capture expert knowledge and make it accessible to your entire team.",
+      ui: <KnowHowTransferUI />,
+    },
+  ];
 
   return (
     <section id="features" ref={ref} className="section-dark py-24 md:py-32">
@@ -52,43 +91,23 @@ const FeaturesSection = () => {
           and predictive analytics that help you prevent downtime and optimize performance.
         </motion.p>
 
-        {/* Feature grid */}
+        {/* Feature grid with interactive UIs */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              title: "Smart Fault Diagnosis",
-              description: "AI-powered root cause analysis identifies issues in seconds, not hours.",
-            },
-            {
-              title: "AR Step-by-Step Guidance",
-              description: "Visual instructions overlaid directly on equipment for error-free repairs.",
-            },
-            {
-              title: "Failure Forecasting",
-              description: "Predict equipment failures days or weeks in advance with 95%+ accuracy.",
-            },
-            {
-              title: "Real-Time Monitoring",
-              description: "Live dashboards show machine health, alerts, and performance metrics.",
-            },
-            {
-              title: "Document Intelligence",
-              description: "Automatically parse manuals and generate actionable repair procedures.",
-            },
-            {
-              title: "Know-How Transfer",
-              description: "Capture expert knowledge and make it accessible to your entire team.",
-            },
-          ].map((feature, index) => (
+          {features.map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              className="p-8 rounded-3xl"
-              style={{ background: "hsl(0 0% 8%)" }}
+              className="flex flex-col"
             >
-              <h3 className="text-lg font-semibold mb-3" style={{ color: "hsl(0 0% 98%)" }}>
+              {/* Interactive UI Card */}
+              <div className="h-[280px] mb-4">
+                {feature.ui}
+              </div>
+              
+              {/* Title and Description */}
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "hsl(0 0% 98%)" }}>
                 {feature.title}
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: "hsl(0 0% 60%)" }}>
