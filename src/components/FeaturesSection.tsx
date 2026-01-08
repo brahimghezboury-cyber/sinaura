@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import engineerImage from "@/assets/engineer-ar.png";
 import SmartFaultDiagnosisUI from "./features/SmartFaultDiagnosisUI";
 import ARStepByStepUI from "./features/ARStepByStepUI";
@@ -11,122 +12,172 @@ import KnowHowTransferUI from "./features/KnowHowTransferUI";
 
 const FeaturesSection = () => {
   const ref = useRef(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScrollButtons = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    if (carouselRef.current) {
+      const scrollAmount = 700;
+      carouselRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+      setTimeout(checkScrollButtons, 300);
+    }
+  };
 
   const features = [
     {
       title: "Smart Fault Diagnosis",
-      description: "AI-powered root cause analysis identifies issues in seconds, not hours.",
+      description: "is the result of years of AI innovation. Its advanced algorithms provide ",
+      highlight: "root cause analysis",
+      descriptionEnd: " that identifies issues in seconds, not hours.",
       ui: <SmartFaultDiagnosisUI />,
     },
     {
       title: "AR Step-by-Step Guidance",
-      description: "Visual instructions overlaid directly on equipment for error-free repairs.",
+      description: "overlays visual instructions directly on equipment. The new ",
+      highlight: "spatial computing",
+      descriptionEnd: " technology ensures error-free repairs every time.",
       ui: <ARStepByStepUI />,
     },
     {
       title: "Failure Forecasting",
-      description: "Predict equipment failures days or weeks in advance with 95%+ accuracy.",
+      description: "uses machine learning to predict equipment failures. With ",
+      highlight: "95%+ accuracy",
+      descriptionEnd: ", you can plan maintenance days or weeks in advance.",
       ui: <FailureForecastingUI />,
     },
     {
       title: "Real-Time Monitoring",
-      description: "Live dashboards show machine health, alerts, and performance metrics.",
+      description: "provides live dashboards showing machine health. The ",
+      highlight: "instant alerts",
+      descriptionEnd: " keep you informed of any anomalies.",
       ui: <RealTimeMonitoringUI />,
     },
     {
       title: "Document Intelligence",
-      description: "Automatically parse manuals and generate actionable repair procedures.",
+      description: "automatically parses equipment manuals. It generates ",
+      highlight: "actionable procedures",
+      descriptionEnd: " for maintenance and repair tasks.",
       ui: <DocumentIntelligenceUI />,
     },
     {
       title: "Know-How Transfer",
-      description: "Capture expert knowledge and make it accessible to your entire team.",
+      description: "captures expert knowledge from your team. This ",
+      highlight: "collective intelligence",
+      descriptionEnd: " is accessible to everyone, anytime.",
       ui: <KnowHowTransferUI />,
     },
   ];
 
   return (
-    <section id="features" ref={ref} className="section-dark py-24 md:py-32">
-      <div className="container mx-auto">
-        {/* Section header */}
-        <motion.div
+    <section id="features" ref={ref} className="py-24 md:py-32 bg-white">
+      <div className="container mx-auto px-4 mb-16">
+        {/* Section header - Apple style */}
+        <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-4"
         >
-          <h2 className="headline gradient-text-light mb-4">
-            Predictive Maintenance
-          </h2>
-          <p className="subheadline max-w-2xl mx-auto" style={{ color: "hsl(0 0% 65%)" }}>
-            See the future of your equipment.
-          </p>
-        </motion.div>
-
-        {/* Full width image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="mb-16 rounded-3xl overflow-hidden"
-        >
-          <img
-            src={engineerImage}
-            alt="Engineer using AriA™"
-            className="w-full h-auto"
-          />
-        </motion.div>
-
-        {/* Description */}
+          Predictive Maintenance.
+        </motion.h2>
+        
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-center max-w-3xl mx-auto mb-16 leading-relaxed"
-          style={{ color: "hsl(0 0% 75%)" }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="text-lg text-muted-foreground"
         >
-          Transform any workspace into an intelligent operations center. 
-          AriA™ provides real-time diagnostics, step-by-step AR guidance, 
-          and predictive analytics that help you prevent downtime and optimize performance.
+          See the future of your equipment.
         </motion.p>
+      </div>
 
-        {/* Feature grid - Apple Style with large cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Apple Carousel */}
+      <div className="relative">
+        {/* Cards container */}
+        <div 
+          ref={carouselRef}
+          onScroll={checkScrollButtons}
+          className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-8 px-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              className="flex flex-col"
+              transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+              className="flex-shrink-0 first:ml-4 last:mr-4"
             >
-              {/* Large Card with UI */}
-              <div className="h-[380px] rounded-2xl overflow-hidden mb-5">
-                {feature.ui}
+              {/* Large card with light gray background */}
+              <div className="w-[600px] md:w-[700px] h-[450px] md:h-[500px] bg-[#f5f5f7] rounded-3xl overflow-hidden mb-6">
+                <div className="w-full h-full">
+                  {feature.ui}
+                </div>
               </div>
               
-              {/* Description below - Apple style with highlighted words */}
-              <p className="text-sm leading-relaxed" style={{ color: "hsl(0 0% 60%)" }}>
-                <span className="font-semibold" style={{ color: "hsl(0 0% 98%)" }}>{feature.title}</span>
-                {" "}{feature.description}
-              </p>
+              {/* Description below card - Apple style */}
+              <div className="max-w-[600px] md:max-w-[700px]">
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                  {feature.title} {feature.description}
+                  <span className="text-foreground font-semibold">{feature.highlight}</span>
+                  {feature.descriptionEnd}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-center mt-12"
-        >
-          <a href="#technology" className="link-arrow" style={{ color: "hsl(210 100% 65%)" }}>
-            Learn more about the technology
-          </a>
-        </motion.div>
+        {/* Navigation arrows - centered at bottom */}
+        <div className="flex items-center justify-center gap-3 mt-8">
+          <button
+            onClick={() => scroll("left")}
+            disabled={!canScrollLeft}
+            className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
+              canScrollLeft 
+                ? "border-border hover:bg-muted cursor-pointer" 
+                : "border-border/30 text-muted-foreground/30 cursor-not-allowed"
+            }`}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => scroll("right")}
+            disabled={!canScrollRight}
+            className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
+              canScrollRight 
+                ? "border-border hover:bg-muted cursor-pointer" 
+                : "border-border/30 text-muted-foreground/30 cursor-not-allowed"
+            }`}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
+
+      {/* Link */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.8 }}
+        className="text-center mt-12 px-4"
+      >
+        <a href="#technology" className="text-primary hover:underline text-lg">
+          Learn more about the technology →
+        </a>
+      </motion.div>
     </section>
   );
 };
