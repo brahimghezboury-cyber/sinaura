@@ -244,6 +244,7 @@ const DesignSection = () => {
               description: "Point your camera at any equipment to instantly identify components, errors, and get diagnostic overlays.",
               icon: Camera,
               customUI: <ARCameraScanUI />,
+              large: true,
             },
             {
               title: "Smart Diagnostics",
@@ -281,10 +282,14 @@ const DesignSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              className="feature-card w-72 md:w-80 p-6 flex flex-col"
+              className={`feature-card p-6 flex flex-col ${
+                feature.large ? "w-96 md:w-[420px]" : "w-72 md:w-80"
+              }`}
             >
               {feature.customUI && (
-                <div className="w-full h-40 rounded-xl overflow-hidden mb-4">
+                <div className={`w-full rounded-xl overflow-hidden mb-4 ${
+                  feature.large ? "h-56" : "h-40"
+                }`}>
                   {feature.customUI}
                 </div>
               )}
