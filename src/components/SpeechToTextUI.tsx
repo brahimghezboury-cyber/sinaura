@@ -50,11 +50,11 @@ const SpeechToTextUI = () => {
 
   return (
     <div className="relative h-full rounded-3xl overflow-hidden">
-      {/* iOS Liquid Glass Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-white/15 to-white/5 backdrop-blur-2xl" />
-      <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 via-transparent to-white/10" />
-      <div className="absolute inset-[0.5px] rounded-3xl border border-white/30" />
-      <div className="absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+      {/* iOS Liquid Glass Background - More opaque for better contrast */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-800/95 via-slate-900/95 to-slate-950/95 backdrop-blur-2xl" />
+      <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 via-transparent to-white/5" />
+      <div className="absolute inset-[0.5px] rounded-3xl border border-white/20" />
+      <div className="absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       
       {/* Content */}
       <div className="relative z-10 p-3 h-full flex flex-col justify-between">
