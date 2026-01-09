@@ -22,7 +22,6 @@ const SmartFaultDiagnosisUI = () => {
   return (
     <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col items-center justify-center rounded-2xl">
       <AnimatePresence mode="wait">
-        {/* Phase 1: Alert Detected */}
         {phase === "alert" && (
           <motion.div
             key="alert"
@@ -43,7 +42,6 @@ const SmartFaultDiagnosisUI = () => {
           </motion.div>
         )}
 
-        {/* Phase 2: Aria Analyzing */}
         {phase === "analyzing" && (
           <motion.div
             key="analyzing"
@@ -64,7 +62,6 @@ const SmartFaultDiagnosisUI = () => {
           </motion.div>
         )}
 
-        {/* Phase 3 & 4: Aria Chat Interface */}
         {(phase === "chat" || phase === "steps") && (
           <motion.div
             key="chat"
@@ -74,7 +71,6 @@ const SmartFaultDiagnosisUI = () => {
             className="w-full max-w-sm bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-3xl p-5 flex flex-col border border-white/10 shadow-2xl"
             style={{ height: "380px" }}
           >
-            {/* Header */}
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
               <span className="text-white font-medium text-sm">Aria Engine</span>
               <button className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">
@@ -82,9 +78,7 @@ const SmartFaultDiagnosisUI = () => {
               </button>
             </div>
 
-            {/* Chat Area */}
             <div className="flex-1 space-y-3 overflow-hidden">
-              {/* User Message */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -99,7 +93,6 @@ const SmartFaultDiagnosisUI = () => {
                 </div>
               </motion.div>
 
-              {/* Aria Response */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -136,7 +129,6 @@ const SmartFaultDiagnosisUI = () => {
               </motion.div>
             </div>
 
-            {/* Input Area */}
             <div className="flex items-center gap-2 mt-3">
               <div className="flex-1 bg-white/10 rounded-full px-4 py-2 border border-white/10">
                 <span className="text-white/40 text-xs">Type or press and hold...</span>

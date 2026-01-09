@@ -59,7 +59,6 @@ const RealTimeAlertsUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-orange-500/20 flex items-center justify-center relative">
@@ -79,7 +78,6 @@ const RealTimeAlertsUI = () => {
         <Bell className="w-4 h-4 text-white/30" />
       </div>
 
-      {/* Alerts List */}
       <div className="flex-1 space-y-3 overflow-hidden">
         <AnimatePresence>
           {alerts.filter(a => !dismissed.includes(a.id)).map((alert) => {
@@ -131,7 +129,6 @@ const RealTimeAlertsUI = () => {
         )}
       </div>
 
-      {/* Status Bar */}
       <div className="pt-4 border-t border-white/5 mt-auto">
         <div className="flex items-center justify-between text-xs">
           <span className="text-white/40">Monitoring 24 devices</span>

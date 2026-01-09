@@ -28,13 +28,11 @@ const RealTimeMonitoringUI = () => {
 
   return (
     <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col rounded-2xl">
-      {/* Live indicator */}
       <div className="flex items-center justify-end gap-2 mb-4">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
         <span className="text-emerald-600 text-xs font-medium">Live</span>
       </div>
 
-      {/* Metrics */}
       <div className="flex-1 flex flex-col justify-center gap-3">
         {gauges.map((gauge, index) => (
           <motion.div

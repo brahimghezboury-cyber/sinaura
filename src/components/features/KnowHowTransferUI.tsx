@@ -20,13 +20,11 @@ const KnowHowTransferUI = () => {
 
   return (
     <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col rounded-2xl">
-      {/* Header */}
       <div className="flex items-center justify-center gap-2 mb-4">
         <Users className="w-5 h-5 text-pink-500" />
         <span className="text-slate-700 font-semibold text-sm">Team Expertise</span>
       </div>
 
-      {/* Expert Cards */}
       <div className="flex-1 flex flex-col justify-center gap-3">
         {experts.map((expert, index) => (
           <motion.div

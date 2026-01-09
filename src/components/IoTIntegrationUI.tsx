@@ -24,7 +24,6 @@ const IoTIntegrationUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-teal-500/20 flex items-center justify-center">
@@ -43,7 +42,6 @@ const IoTIntegrationUI = () => {
         </div>
       </div>
 
-      {/* Connection Status */}
       <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10 mb-4">
         <div className="flex items-center justify-between mb-3">
           <span className="text-white/60 text-xs">Connected Devices</span>
@@ -65,7 +63,6 @@ const IoTIntegrationUI = () => {
         </div>
       </div>
 
-      {/* Devices List */}
       <div className="flex-1 space-y-2 overflow-hidden">
         {devices.map((device, index) => (
           <motion.div
@@ -109,7 +106,6 @@ const IoTIntegrationUI = () => {
         ))}
       </div>
 
-      {/* Data Flow Indicator */}
       <div className="pt-4 border-t border-white/5 mt-auto">
         <div className="flex items-center justify-between">
           <span className="text-white/40 text-xs">Data Points/sec</span>

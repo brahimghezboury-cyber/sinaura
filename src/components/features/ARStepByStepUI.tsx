@@ -20,7 +20,6 @@ const ARStepByStepUI = () => {
     { label: "Test System", icon: RotateCcw, instruction: "Power on and verify" },
   ];
 
-  // AR overlay positions for each step (relative to the control panel image)
   const overlayPositions = [
     { x: "85%", y: "15%", label: "Main Switch" },
     { x: "15%", y: "50%", label: "Panel Cover" },
@@ -30,7 +29,6 @@ const ARStepByStepUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-xl p-5 flex flex-col rounded-2xl border border-white/10">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -39,32 +37,26 @@ const ARStepByStepUI = () => {
         <span className="text-white/50 text-xs">Step {currentStep + 1} of 4</span>
       </div>
 
-      {/* AR View with Real Image */}
       <div className="flex-1 relative rounded-2xl overflow-hidden mb-4 border border-white/5">
-        {/* Real Industrial Image */}
         <img 
           src={controlPanelImage} 
           alt="Control Panel"
           className="w-full h-full object-cover"
         />
         
-        {/* Dark overlay for better AR visibility */}
         <div className="absolute inset-0 bg-black/30" />
 
-        {/* AR Corners */}
         <div className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 border-cyan-400 rounded-tl" />
         <div className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 border-cyan-400 rounded-tr" />
         <div className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 border-cyan-400 rounded-bl" />
         <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 border-cyan-400 rounded-br" />
 
-        {/* Scanning line effect */}
         <motion.div
           animate={{ y: ["-100%", "400%"] }}
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60"
         />
 
-        {/* AR Overlay Markers */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -74,16 +66,13 @@ const ARStepByStepUI = () => {
             className="absolute"
             style={{ left: overlayPositions[currentStep].x, top: overlayPositions[currentStep].y }}
           >
-            {/* Pulsing ring */}
             <motion.div
               animate={{ scale: [1, 2, 1], opacity: [0.8, 0, 0.8] }}
               transition={{ duration: 1.5, repeat: Infinity }}
               className="w-8 h-8 rounded-full border-2 border-cyan-400 absolute -translate-x-1/2 -translate-y-1/2"
             />
-            {/* Center dot */}
             <div className="w-4 h-4 rounded-full bg-cyan-400 absolute -translate-x-1/2 -translate-y-1/2 border-2 border-white shadow-lg shadow-cyan-500/50" />
             
-            {/* Label */}
             <motion.div
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
@@ -96,7 +85,6 @@ const ARStepByStepUI = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Instruction Overlay */}
         <motion.div
           key={`instruction-${currentStep}`}
           initial={{ opacity: 0, y: 10 }}
@@ -122,7 +110,6 @@ const ARStepByStepUI = () => {
         </motion.div>
       </div>
 
-      {/* Step Progress */}
       <div className="flex gap-2">
         {steps.map((step, index) => (
           <motion.div

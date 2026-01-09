@@ -62,7 +62,6 @@ const CustomSettingsUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-50 via-white to-slate-100 p-6 flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-slate-200 flex items-center justify-center">
@@ -72,7 +71,6 @@ const CustomSettingsUI = () => {
         </div>
       </div>
 
-      {/* Profile Card */}
       <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl p-4 mb-5">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
@@ -85,7 +83,6 @@ const CustomSettingsUI = () => {
         </div>
       </div>
 
-      {/* Settings List */}
       <div className="flex-1 space-y-2 overflow-hidden">
         {settings.map((setting, index) => (
           <motion.div
@@ -132,7 +129,6 @@ const CustomSettingsUI = () => {
         ))}
       </div>
 
-      {/* Save Button */}
       <motion.button
         whileTap={{ scale: 0.98 }}
         className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-xl flex items-center justify-center gap-2 mt-4"
