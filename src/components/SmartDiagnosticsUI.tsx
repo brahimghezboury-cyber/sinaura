@@ -33,7 +33,6 @@ const SmartDiagnosticsUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-amber-500/20 flex items-center justify-center">
@@ -50,7 +49,6 @@ const SmartDiagnosticsUI = () => {
         </div>
       </div>
 
-      {/* Error Display */}
       <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10 mb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center">
@@ -63,7 +61,6 @@ const SmartDiagnosticsUI = () => {
         </div>
       </div>
 
-      {/* Analysis Animation */}
       <AnimatePresence mode="wait">
         {phase === "analyzing" && (
           <motion.div

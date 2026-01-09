@@ -45,7 +45,6 @@ const RequestHistoryUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-50 via-white to-slate-100 p-6 flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center">
@@ -59,7 +58,6 @@ const RequestHistoryUI = () => {
         </div>
       </div>
 
-      {/* History List */}
       <div className="flex-1 space-y-3 overflow-hidden">
         {historyItems.map((item, index) => (
           <motion.div
@@ -113,7 +111,6 @@ const RequestHistoryUI = () => {
         ))}
       </div>
 
-      {/* Footer */}
       <div className="pt-4 border-t border-slate-200/50 mt-auto">
         <button className="w-full py-2.5 text-center text-sm text-indigo-600 font-medium bg-indigo-50 rounded-xl hover:bg-indigo-100 transition-colors">
           View All History

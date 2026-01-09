@@ -25,7 +25,6 @@ const FailureForecastingUI = () => {
 
   return (
     <div className="w-full h-full bg-[#f5f5f7] p-6 flex flex-col items-center justify-center rounded-2xl">
-      {/* Circular Gauge */}
       <div className="relative w-36 h-36 mb-6">
         <svg className="w-full h-full -rotate-90">
           <circle
@@ -67,7 +66,6 @@ const FailureForecastingUI = () => {
         </div>
       </div>
 
-      {/* Predictions */}
       <div className="w-full max-w-xs space-y-2">
         <div className="flex items-center justify-between p-3 bg-white rounded-xl shadow-sm">
           <div className="flex items-center gap-2">

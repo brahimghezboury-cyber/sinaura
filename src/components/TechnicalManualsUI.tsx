@@ -31,7 +31,6 @@ const TechnicalManualsUI = () => {
 
   return (
     <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-violet-500/20 flex items-center justify-center">
@@ -42,7 +41,6 @@ const TechnicalManualsUI = () => {
         <span className="text-white/40 text-xs">3 documents</span>
       </div>
 
-      {/* Search Bar */}
       <motion.div
         animate={{
           borderColor: searchActive ? "rgba(139, 92, 246, 0.5)" : "rgba(255, 255, 255, 0.1)"
@@ -68,7 +66,6 @@ const TechnicalManualsUI = () => {
         )}
       </motion.div>
 
-      {/* Documents List */}
       <div className="flex-1 space-y-3 overflow-hidden">
         {documents.map((doc, index) => (
           <motion.div
@@ -111,7 +108,6 @@ const TechnicalManualsUI = () => {
         ))}
       </div>
 
-      {/* Quick Actions */}
       <div className="pt-4 border-t border-white/5 mt-auto flex gap-2">
         <button className="flex-1 py-2.5 text-center text-xs text-violet-400 font-medium bg-violet-500/10 rounded-xl hover:bg-violet-500/20 transition-colors">
           Upload Manual

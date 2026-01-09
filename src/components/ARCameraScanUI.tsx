@@ -7,22 +7,17 @@ const ARCameraScanUI = () => {
   const [scanPhase, setScanPhase] = useState<"idle" | "scanning" | "detected" | "analyzing">("idle");
   const [showOverlay, setShowOverlay] = useState(false);
 
-  // Auto-start animation cycle
   useEffect(() => {
     const startCycle = () => {
       setScanPhase("idle");
       setShowOverlay(false);
       
-      // Start scanning
       setTimeout(() => setScanPhase("scanning"), 1000);
-      // Detected
       setTimeout(() => setScanPhase("detected"), 2500);
-      // Show overlay
       setTimeout(() => {
         setScanPhase("analyzing");
         setShowOverlay(true);
       }, 3200);
-      // Reset cycle
       setTimeout(() => startCycle(), 6500);
     };
     
@@ -31,15 +26,12 @@ const ARCameraScanUI = () => {
 
   return (
     <div className="relative h-full rounded-3xl overflow-hidden">
-      {/* Dark glass background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-800/95 via-slate-900/95 to-slate-950/95 backdrop-blur-2xl" />
       <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/10 via-transparent to-white/5" />
       <div className="absolute inset-[0.5px] rounded-3xl border border-white/20" />
       <div className="absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       
-      {/* Content */}
       <div className="relative z-10 p-3 h-full flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <motion.div 
@@ -59,16 +51,13 @@ const ARCameraScanUI = () => {
           </div>
         </div>
 
-        {/* Camera viewfinder */}
         <div className="flex-1 relative rounded-xl overflow-hidden bg-black/30">
-          {/* Real industrial equipment image */}
           <img 
             src={industrialValve} 
             alt="Industrial valve equipment" 
             className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
 
-          {/* Scanning corners */}
           <motion.div
             className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-emerald-400"
             animate={scanPhase === "scanning" ? { opacity: [1, 0.3, 1] } : { opacity: 0.6 }}
@@ -90,7 +79,6 @@ const ARCameraScanUI = () => {
             transition={{ duration: 0.8, repeat: Infinity, delay: 0.6 }}
           />
 
-          {/* Scanning line */}
           <AnimatePresence>
             {scanPhase === "scanning" && (
               <motion.div
@@ -102,7 +90,6 @@ const ARCameraScanUI = () => {
             )}
           </AnimatePresence>
 
-          {/* Detection highlight */}
           <AnimatePresence>
             {(scanPhase === "detected" || scanPhase === "analyzing") && (
               <motion.div
@@ -117,7 +104,6 @@ const ARCameraScanUI = () => {
             )}
           </AnimatePresence>
 
-          {/* Diagnostic overlay */}
           <AnimatePresence>
             {showOverlay && (
               <motion.div
@@ -135,7 +121,6 @@ const ARCameraScanUI = () => {
           </AnimatePresence>
         </div>
 
-        {/* Bottom bar */}
         <div className="flex items-center justify-center gap-3 mt-2">
           <motion.button
             animate={scanPhase !== "idle" ? { scale: [1, 0.95, 1] } : {}}
