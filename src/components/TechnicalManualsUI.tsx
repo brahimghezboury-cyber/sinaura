@@ -78,16 +78,16 @@ const TechnicalManualsUI = () => {
       </div>
 
       <AnimatePresence mode="wait">
-        {phase === "scanning" && (
+        {(phase === "scanning" || phase === "detected") && (
           <motion.div
-            key="scanning"
+            key="scanning-detected"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="flex-1 flex flex-col"
           >
-            {/* Image scan area */}
-            <div className="flex-1 relative rounded-xl overflow-hidden bg-black/30 mb-4">
+            {/* Image scan area - larger */}
+            <div className="flex-1 relative rounded-xl overflow-hidden bg-black/30 min-h-[200px]">
               <img 
                 src={industrialValve} 
                 alt="Scanning equipment" 
@@ -96,84 +96,101 @@ const TechnicalManualsUI = () => {
               
               {/* Corner markers */}
               <motion.div
-                className="absolute top-3 left-3 w-5 h-5 border-l-2 border-t-2 border-violet-400"
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
+                className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2"
+                style={{ borderColor: phase === "detected" ? "#34d399" : "#a78bfa" }}
+                animate={phase === "scanning" ? { opacity: [1, 0.3, 1] } : { opacity: 0.8 }}
+                transition={{ duration: 0.8, repeat: phase === "scanning" ? Infinity : 0 }}
               />
               <motion.div
-                className="absolute top-3 right-3 w-5 h-5 border-r-2 border-t-2 border-violet-400"
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity, delay: 0.2 }}
+                className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2"
+                style={{ borderColor: phase === "detected" ? "#34d399" : "#a78bfa" }}
+                animate={phase === "scanning" ? { opacity: [1, 0.3, 1] } : { opacity: 0.8 }}
+                transition={{ duration: 0.8, repeat: phase === "scanning" ? Infinity : 0, delay: 0.2 }}
               />
               <motion.div
-                className="absolute bottom-3 left-3 w-5 h-5 border-l-2 border-b-2 border-violet-400"
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity, delay: 0.4 }}
+                className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2"
+                style={{ borderColor: phase === "detected" ? "#34d399" : "#a78bfa" }}
+                animate={phase === "scanning" ? { opacity: [1, 0.3, 1] } : { opacity: 0.8 }}
+                transition={{ duration: 0.8, repeat: phase === "scanning" ? Infinity : 0, delay: 0.4 }}
               />
               <motion.div
-                className="absolute bottom-3 right-3 w-5 h-5 border-r-2 border-b-2 border-violet-400"
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity, delay: 0.6 }}
+                className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2"
+                style={{ borderColor: phase === "detected" ? "#34d399" : "#a78bfa" }}
+                animate={phase === "scanning" ? { opacity: [1, 0.3, 1] } : { opacity: 0.8 }}
+                transition={{ duration: 0.8, repeat: phase === "scanning" ? Infinity : 0, delay: 0.6 }}
               />
               
-              {/* Scanning line */}
-              <motion.div
-                className="absolute left-3 right-3 h-[2px] bg-gradient-to-r from-transparent via-violet-400 to-transparent"
-                initial={{ top: "10%" }}
-                animate={{ top: ["10%", "90%", "10%"] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-            
-            <div className="text-center">
-              <p className="text-white/80 text-sm font-medium mb-2">Scanning Component...</p>
-              <p className="text-white/40 text-xs mb-3">Point camera at equipment label</p>
-              
-              <div className="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden mx-auto">
-                <motion.div 
-                  className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
-                  style={{ width: `${scanProgress}%` }}
+              {/* Scanning line - only during scanning */}
+              {phase === "scanning" && (
+                <motion.div
+                  className="absolute left-3 right-3 h-[2px] bg-gradient-to-r from-transparent via-violet-400 to-transparent"
+                  initial={{ top: "10%" }}
+                  animate={{ top: ["10%", "90%", "10%"] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 />
-              </div>
-            </div>
-          </motion.div>
-        )}
+              )}
 
-        {phase === "detected" && (
-          <motion.div
-            key="detected"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="flex-1 flex flex-col items-center justify-center"
-          >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", damping: 15 }}
-              className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 flex items-center justify-center mb-6 border border-emerald-500/30"
-            >
-              <motion.div
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-              >
-                <svg className="w-10 h-10 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <motion.path
-                    d="M20 6L9 17l-5-5"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  />
-                </svg>
-              </motion.div>
-            </motion.div>
+              {/* Detection overlay with checkmark */}
+              <AnimatePresence>
+                {phase === "detected" && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="absolute inset-3 border-2 border-emerald-400 rounded-lg"
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring", damping: 15, delay: 0.2 }}
+                      className="absolute -top-1 -right-1 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-white" />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
             
-            <p className="text-emerald-400 text-sm font-medium mb-3">Component Detected!</p>
-            
-            <div className="bg-white/5 rounded-2xl p-4 border border-white/10 w-full max-w-[200px]">
-              <p className="text-white text-sm font-medium mb-1">{detectedComponent.name}</p>
-              <p className="text-white/40 text-xs">{detectedComponent.type}</p>
-              <p className="text-white/30 text-xs mt-1">{detectedComponent.serial}</p>
+            {/* Bottom info area */}
+            <div className="mt-4">
+              <AnimatePresence mode="wait">
+                {phase === "scanning" && (
+                  <motion.div 
+                    key="scan-info"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-center"
+                  >
+                    <p className="text-white/80 text-sm font-medium mb-2">Scanning Component...</p>
+                    <p className="text-white/40 text-xs mb-3">Point camera at equipment label</p>
+                    
+                    <div className="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden mx-auto">
+                      <motion.div 
+                        className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
+                        style={{ width: `${scanProgress}%` }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+                
+                {phase === "detected" && (
+                  <motion.div 
+                    key="detect-info"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="text-center"
+                  >
+                    <p className="text-emerald-400 text-sm font-medium mb-2">Component Detected!</p>
+                    <div className="bg-white/5 rounded-xl p-3 border border-white/10 inline-block">
+                      <p className="text-white text-sm font-medium">{detectedComponent.name}</p>
+                      <p className="text-white/40 text-xs">{detectedComponent.serial}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}
