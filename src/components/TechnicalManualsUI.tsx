@@ -143,36 +143,82 @@ const TechnicalManualsUI = () => {
         {phase === "detected" && (
           <motion.div
             key="detected"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="flex-1 flex flex-col items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-1 flex flex-col"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", damping: 15 }}
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 flex items-center justify-center mb-4 border border-emerald-500/30"
-            >
-              <CheckCircle2 className="w-8 h-8 text-emerald-400" />
-            </motion.div>
-            
-            <p className="text-emerald-400 text-sm font-medium mb-3">Component Detected!</p>
-            
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10 text-center">
-              <p className="text-white text-sm font-medium mb-1">{detectedComponent.name}</p>
-              <p className="text-white/40 text-xs">{detectedComponent.type}</p>
-              <p className="text-white/30 text-xs mt-1">{detectedComponent.serial}</p>
+            {/* AR Camera view with detected component */}
+            <div className="flex-1 relative rounded-xl overflow-hidden bg-black/30">
+              <img 
+                src={industrialValve} 
+                alt="Detected equipment" 
+                className="absolute inset-0 w-full h-full object-cover opacity-60"
+              />
+              
+              {/* Green corner markers - detected state */}
+              <motion.div
+                className="absolute top-3 left-3 w-6 h-6 border-l-2 border-t-2 border-emerald-400"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+              />
+              <motion.div
+                className="absolute top-3 right-3 w-6 h-6 border-r-2 border-t-2 border-emerald-400"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+              />
+              <motion.div
+                className="absolute bottom-3 left-3 w-6 h-6 border-l-2 border-b-2 border-emerald-400"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+              />
+              <motion.div
+                className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 border-emerald-400"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+              />
+
+              {/* Detection border */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="absolute inset-4 border-2 border-emerald-400 rounded-lg"
+              />
+
+              {/* Centered detection info overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", damping: 15 }}
+                  className="w-14 h-14 rounded-2xl bg-emerald-500/20 backdrop-blur-sm flex items-center justify-center mb-3 border border-emerald-500/40"
+                >
+                  <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+                </motion.div>
+                
+                <p className="text-emerald-400 text-sm font-medium mb-3">Component Detected!</p>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-4 border border-white/10 text-center"
+                >
+                  <p className="text-white text-sm font-medium mb-1">{detectedComponent.name}</p>
+                  <p className="text-white/40 text-xs">{detectedComponent.type}</p>
+                  <p className="text-white/30 text-xs mt-1">{detectedComponent.serial}</p>
+                </motion.div>
+                
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-white/40 text-xs mt-4"
+                >
+                  Loading available manuals...
+                </motion.p>
+              </div>
             </div>
-            
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-white/40 text-xs mt-4"
-            >
-              Loading available manuals...
-            </motion.p>
           </motion.div>
         )}
 
