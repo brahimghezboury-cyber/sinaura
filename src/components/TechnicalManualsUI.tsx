@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FileText, Scan, BookOpen, ChevronRight, Wrench, Zap, Settings, ChevronLeft } from "lucide-react";
+import { FileText, Scan, BookOpen, ChevronRight, Wrench, Zap, Settings, ChevronLeft, CheckCircle2 } from "lucide-react";
+import industrialValve from "@/assets/industrial-valve.png";
 
 const TechnicalManualsUI = () => {
   const [phase, setPhase] = useState<"scanning" | "detected" | "documents">("scanning");
@@ -83,27 +84,57 @@ const TechnicalManualsUI = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col items-center justify-center"
+            className="flex-1 flex flex-col"
           >
-            <motion.div
-              animate={{ 
-                scale: [1, 1.1, 1],
-                boxShadow: ["0 0 0 0 rgba(139, 92, 246, 0)", "0 0 0 20px rgba(139, 92, 246, 0.2)", "0 0 0 0 rgba(139, 92, 246, 0)"]
-              }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center mb-6 border border-violet-500/30"
-            >
-              <Scan className="w-10 h-10 text-violet-400" />
-            </motion.div>
-            
-            <p className="text-white/80 text-sm font-medium mb-2">Scanning Component...</p>
-            <p className="text-white/40 text-xs mb-4">Point camera at equipment label</p>
-            
-            <div className="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <motion.div 
-                className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
-                style={{ width: `${scanProgress}%` }}
+            {/* Image scan area */}
+            <div className="flex-1 relative rounded-xl overflow-hidden bg-black/30 mb-4">
+              <img 
+                src={industrialValve} 
+                alt="Scanning equipment" 
+                className="absolute inset-0 w-full h-full object-cover opacity-80"
               />
+              
+              {/* Corner markers */}
+              <motion.div
+                className="absolute top-3 left-3 w-5 h-5 border-l-2 border-t-2 border-violet-400"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute top-3 right-3 w-5 h-5 border-r-2 border-t-2 border-violet-400"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity, delay: 0.2 }}
+              />
+              <motion.div
+                className="absolute bottom-3 left-3 w-5 h-5 border-l-2 border-b-2 border-violet-400"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity, delay: 0.4 }}
+              />
+              <motion.div
+                className="absolute bottom-3 right-3 w-5 h-5 border-r-2 border-b-2 border-violet-400"
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity, delay: 0.6 }}
+              />
+              
+              {/* Scanning line */}
+              <motion.div
+                className="absolute left-3 right-3 h-[2px] bg-gradient-to-r from-transparent via-violet-400 to-transparent"
+                initial={{ top: "10%" }}
+                animate={{ top: ["10%", "90%", "10%"] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
+            
+            <div className="text-center">
+              <p className="text-white/80 text-sm font-medium mb-2">Scanning Component...</p>
+              <p className="text-white/40 text-xs mb-3">Point camera at equipment label</p>
+              
+              <div className="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden mx-auto">
+                <motion.div 
+                  className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
+                  style={{ width: `${scanProgress}%` }}
+                />
+              </div>
             </div>
           </motion.div>
         )}
