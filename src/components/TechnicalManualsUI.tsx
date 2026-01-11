@@ -1,32 +1,65 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FileText, Search, BookOpen, ChevronRight, Download } from "lucide-react";
+import { FileText, Scan, BookOpen, ChevronRight, Wrench, Zap, Settings, ChevronLeft } from "lucide-react";
 
 const TechnicalManualsUI = () => {
-  const [searchActive, setSearchActive] = useState(false);
+  const [phase, setPhase] = useState<"scanning" | "detected" | "documents">("scanning");
+  const [scanProgress, setScanProgress] = useState(0);
   const [selectedDoc, setSelectedDoc] = useState<number | null>(null);
 
   useEffect(() => {
-    const timer1 = setTimeout(() => setSearchActive(true), 1000);
-    const timer2 = setTimeout(() => setSelectedDoc(0), 2500);
-    const timer3 = setTimeout(() => setSelectedDoc(1), 4000);
-    const timer4 = setTimeout(() => {
-      setSearchActive(false);
-      setSelectedDoc(null);
-    }, 6000);
+    let interval: NodeJS.Timeout;
+    let timer1: NodeJS.Timeout;
+    let timer2: NodeJS.Timeout;
+    let timer3: NodeJS.Timeout;
+    let timer4: NodeJS.Timeout;
+
+    if (phase === "scanning") {
+      interval = setInterval(() => {
+        setScanProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 5;
+        });
+      }, 80);
+
+      timer1 = setTimeout(() => setPhase("detected"), 1800);
+    }
+
+    if (phase === "detected") {
+      timer2 = setTimeout(() => setPhase("documents"), 1500);
+    }
+
+    if (phase === "documents") {
+      timer3 = setTimeout(() => setSelectedDoc(1), 1500);
+      timer4 = setTimeout(() => {
+        setPhase("scanning");
+        setScanProgress(0);
+        setSelectedDoc(null);
+      }, 5000);
+    }
 
     return () => {
+      clearInterval(interval);
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
       clearTimeout(timer4);
     };
-  }, [searchActive]);
+  }, [phase]);
+
+  const detectedComponent = {
+    name: "Hydraulic Valve HV-200",
+    type: "Control Valve",
+    serial: "SN-78432-A"
+  };
 
   const documents = [
-    { name: "Motor Controller Manual", pages: 245, type: "PDF", size: "12.4 MB" },
-    { name: "PLC Programming Guide", pages: 180, type: "PDF", size: "8.2 MB" },
-    { name: "Sensor Calibration", pages: 65, type: "PDF", size: "3.1 MB" },
+    { name: "Installation Guide", pages: 45, icon: Wrench, color: "text-emerald-400", bgColor: "bg-emerald-500/10" },
+    { name: "Maintenance Manual", pages: 120, icon: Settings, color: "text-violet-400", bgColor: "bg-violet-500/10" },
+    { name: "Troubleshooting", pages: 32, icon: Zap, color: "text-amber-400", bgColor: "bg-amber-500/10" },
   ];
 
   return (
@@ -38,82 +71,144 @@ const TechnicalManualsUI = () => {
           </div>
           <span className="text-white font-medium text-sm">Technical Manuals</span>
         </div>
-        <span className="text-white/40 text-xs">3 documents</span>
+        <span className="text-white/40 text-xs">
+          {phase === "scanning" ? "Scanning..." : phase === "detected" ? "Component Found" : "3 documents"}
+        </span>
       </div>
 
-      <motion.div
-        animate={{
-          borderColor: searchActive ? "rgba(139, 92, 246, 0.5)" : "rgba(255, 255, 255, 0.1)"
-        }}
-        className="relative mb-5 bg-white/5 rounded-xl border overflow-hidden"
-      >
-        <div className="flex items-center px-4 py-3">
-          <Search className="w-4 h-4 text-white/40 mr-3" />
-          <motion.span 
-            className="text-white/40 text-sm"
-            animate={{ opacity: searchActive ? [0.4, 1, 0.4] : 0.4 }}
-            transition={{ duration: 1.5, repeat: searchActive ? Infinity : 0 }}
-          >
-            {searchActive ? "Searching manuals..." : "Search documentation"}
-          </motion.span>
-        </div>
-        {searchActive && (
-          <motion.div 
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            className="h-0.5 bg-gradient-to-r from-violet-500 to-purple-500 origin-left"
-          />
-        )}
-      </motion.div>
-
-      <div className="flex-1 space-y-3 overflow-hidden">
-        {documents.map((doc, index) => (
+      <AnimatePresence mode="wait">
+        {phase === "scanning" && (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ 
-              opacity: 1, 
-              x: 0,
-              scale: selectedDoc === index ? 1.02 : 1,
-              backgroundColor: selectedDoc === index ? "rgba(139, 92, 246, 0.1)" : "rgba(255, 255, 255, 0.03)"
-            }}
-            transition={{ delay: index * 0.15 }}
-            className="p-4 rounded-2xl border border-white/5 cursor-pointer hover:bg-white/5 transition-all"
+            key="scanning"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-1 flex flex-col items-center justify-center"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-violet-400" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-white mb-0.5">{doc.name}</p>
-                <div className="flex items-center gap-2 text-xs text-white/40">
-                  <span>{doc.pages} pages</span>
-                  <span>•</span>
-                  <span>{doc.size}</span>
-                </div>
-              </div>
-              {selectedDoc === index ? (
-                <motion.button 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="w-8 h-8 rounded-lg bg-violet-500 flex items-center justify-center"
-                >
-                  <Download className="w-4 h-4 text-white" />
-                </motion.button>
-              ) : (
-                <ChevronRight className="w-4 h-4 text-white/30" />
-              )}
+            <motion.div
+              animate={{ 
+                scale: [1, 1.1, 1],
+                boxShadow: ["0 0 0 0 rgba(139, 92, 246, 0)", "0 0 0 20px rgba(139, 92, 246, 0.2)", "0 0 0 0 rgba(139, 92, 246, 0)"]
+              }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-20 h-20 rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center mb-6 border border-violet-500/30"
+            >
+              <Scan className="w-10 h-10 text-violet-400" />
+            </motion.div>
+            
+            <p className="text-white/80 text-sm font-medium mb-2">Scanning Component...</p>
+            <p className="text-white/40 text-xs mb-4">Point camera at equipment label</p>
+            
+            <div className="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <motion.div 
+                className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
+                style={{ width: `${scanProgress}%` }}
+              />
             </div>
           </motion.div>
-        ))}
-      </div>
+        )}
 
-      <div className="pt-4 border-t border-white/5 mt-auto flex gap-2">
-        <button className="flex-1 py-2.5 text-center text-xs text-violet-400 font-medium bg-violet-500/10 rounded-xl hover:bg-violet-500/20 transition-colors">
-          Upload Manual
-        </button>
-        <button className="flex-1 py-2.5 text-center text-xs text-white/60 font-medium bg-white/5 rounded-xl hover:bg-white/10 transition-colors">
-          Browse All
+        {phase === "detected" && (
+          <motion.div
+            key="detected"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="flex-1 flex flex-col items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", damping: 15 }}
+              className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-green-500/20 flex items-center justify-center mb-6 border border-emerald-500/30"
+            >
+              <motion.div
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+              >
+                <svg className="w-10 h-10 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <motion.path
+                    d="M20 6L9 17l-5-5"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  />
+                </svg>
+              </motion.div>
+            </motion.div>
+            
+            <p className="text-emerald-400 text-sm font-medium mb-3">Component Detected!</p>
+            
+            <div className="bg-white/5 rounded-2xl p-4 border border-white/10 w-full max-w-[200px]">
+              <p className="text-white text-sm font-medium mb-1">{detectedComponent.name}</p>
+              <p className="text-white/40 text-xs">{detectedComponent.type}</p>
+              <p className="text-white/30 text-xs mt-1">{detectedComponent.serial}</p>
+            </div>
+          </motion.div>
+        )}
+
+        {phase === "documents" && (
+          <motion.div
+            key="documents"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-1 flex flex-col"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white/5 rounded-xl p-3 mb-4 border border-white/10 flex items-center gap-3"
+            >
+              <button className="text-white/40 hover:text-white/60 transition-colors">
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <div className="flex-1">
+                <p className="text-white text-xs font-medium">{detectedComponent.name}</p>
+                <p className="text-white/40 text-[10px]">{detectedComponent.serial}</p>
+              </div>
+            </motion.div>
+
+            <p className="text-white/60 text-xs mb-3">Select document type:</p>
+
+            <div className="flex-1 space-y-3 overflow-hidden">
+              {documents.map((doc, index) => {
+                const IconComponent = doc.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0,
+                      scale: selectedDoc === index ? 1.02 : 1,
+                      backgroundColor: selectedDoc === index ? "rgba(139, 92, 246, 0.1)" : "rgba(255, 255, 255, 0.03)"
+                    }}
+                    transition={{ delay: index * 0.1 }}
+                    className="p-4 rounded-2xl border border-white/5 cursor-pointer hover:bg-white/5 transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl ${doc.bgColor} flex items-center justify-center`}>
+                        <IconComponent className={`w-5 h-5 ${doc.color}`} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-white mb-0.5">{doc.name}</p>
+                        <p className="text-xs text-white/40">{doc.pages} pages</p>
+                      </div>
+                      <ChevronRight className={`w-4 h-4 transition-colors ${selectedDoc === index ? "text-violet-400" : "text-white/30"}`} />
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="pt-4 border-t border-white/5 mt-auto">
+        <button className="w-full py-2.5 text-center text-xs text-violet-400 font-medium bg-violet-500/10 rounded-xl hover:bg-violet-500/20 transition-colors flex items-center justify-center gap-2">
+          <Scan className="w-4 h-4" />
+          Scan New Component
         </button>
       </div>
     </div>
