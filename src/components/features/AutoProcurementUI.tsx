@@ -138,7 +138,10 @@ const AutoProcurementUI = () => {
             className="flex-1 flex flex-col h-full"
           >
             {/* Messages Area - Scrollable */}
-            <div className="flex-1 p-5 space-y-4 overflow-y-auto">
+            <div 
+              className="flex-1 p-5 space-y-4 overflow-y-auto overscroll-contain"
+              onWheel={(e) => e.stopPropagation()}
+            >
               {/* User message 1 */}
               {visibleMessages.includes("user1") && (
                 <ChatBubbleUser>
