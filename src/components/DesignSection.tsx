@@ -11,6 +11,7 @@ import TechnicalManualsUI from "./TechnicalManualsUI";
 import RealTimeAlertsUI from "./RealTimeAlertsUI";
 import IoTIntegrationUI from "./IoTIntegrationUI";
 import CustomSettingsUI from "./CustomSettingsUI";
+import AutoProcurementUI from "./features/AutoProcurementUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
@@ -323,6 +324,13 @@ const DesignSection = () => {
                 highlight: "AriA™ experience",
                 descriptionEnd: " for your workflow.",
                 customUI: <CustomSettingsUI />,
+              },
+              {
+                title: "Auto Procurement",
+                description: "AI diagnoses faults, checks warehouse stock, and ",
+                highlight: "automatically orders spare parts",
+                descriptionEnd: " from suppliers when needed.",
+                customUI: <AutoProcurementUI />,
               },
             ].map((feature, index) => (
               <motion.div
