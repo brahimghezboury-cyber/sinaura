@@ -10,8 +10,7 @@ import {
   AlertTriangle,
   User,
   X,
-  Mic,
-  MessageCircle
+  Mic
 } from "lucide-react";
 
 type Phase = 
@@ -75,24 +74,24 @@ const AutoProcurementUI = () => {
       transition={{ type: "spring", damping: 20, stiffness: 300, delay }}
       className="flex justify-start"
     >
-      <div className="bg-white/[0.08] backdrop-blur-2xl rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%] border border-white/[0.15] shadow-xl">
+      <div className="bg-black/[0.06] backdrop-blur-sm rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%] border border-black/[0.08] shadow-sm">
         <div className="flex items-center gap-1.5 mb-2">
           <motion.div
             animate={{ rotate: [0, 180, 360] }}
             transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           >
-            <Sparkles className="w-3 h-3 text-cyan-400" />
+            <Sparkles className="w-3 h-3 text-cyan-600" />
           </motion.div>
-          <span className="text-[10px] font-semibold text-cyan-400 tracking-wide">ARIA ENGINE</span>
+          <span className="text-[10px] font-semibold text-cyan-600 tracking-wide">ARIA ENGINE</span>
         </div>
-        <div className="text-white/90 text-sm leading-relaxed">{children}</div>
+        <div className="text-slate-700 text-sm leading-relaxed">{children}</div>
       </div>
     </motion.div>
   );
 
   const StatusCard = ({ 
     children, 
-    borderColor = "border-white/10",
+    borderColor = "border-black/10",
     icon,
     iconBg,
     title,
@@ -110,7 +109,7 @@ const AutoProcurementUI = () => {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -20, scale: 0.95 }}
       transition={{ type: "spring", damping: 25, stiffness: 300 }}
-      className={`bg-white/[0.06] backdrop-blur-2xl rounded-3xl p-6 border ${borderColor} shadow-2xl`}
+      className={`bg-white/60 backdrop-blur-2xl rounded-3xl p-6 border ${borderColor} shadow-xl w-full max-w-sm`}
     >
       <div className="flex items-center gap-4 mb-4">
         <motion.div
@@ -126,7 +125,7 @@ const AutoProcurementUI = () => {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-white font-semibold text-base"
+            className="text-slate-800 font-semibold text-base"
           >
             {title}
           </motion.p>
@@ -135,7 +134,7 @@ const AutoProcurementUI = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-white/50 text-xs"
+              className="text-slate-500 text-xs"
             >
               {subtitle}
             </motion.p>
@@ -147,303 +146,292 @@ const AutoProcurementUI = () => {
   );
 
   return (
-    <div className="w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl overflow-hidden relative">
-      {/* Animated background effects */}
-      <div className="absolute inset-0 overflow-hidden">
+    <div className="w-full h-full bg-gradient-to-br from-slate-200/80 via-slate-100 to-slate-200/80 rounded-2xl overflow-hidden relative">
+      {/* Frosted glass overlay */}
+      <div className="absolute inset-0 backdrop-blur-xl bg-white/40" />
+      
+      {/* Subtle animated gradient */}
+      <div className="absolute inset-0 overflow-hidden opacity-30">
         <motion.div
           animate={{ 
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.2, 1]
+            x: [0, 50, 0],
+            y: [0, -30, 0],
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full blur-3xl"
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-cyan-300/30 to-transparent rounded-full blur-3xl"
         />
         <motion.div
           animate={{ 
-            x: [0, -80, 0],
-            y: [0, 60, 0],
-            scale: [1, 1.3, 1]
+            x: [0, -40, 0],
+            y: [0, 30, 0],
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-violet-500/10 to-transparent rounded-full blur-3xl"
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-blue-300/30 to-transparent rounded-full blur-3xl"
         />
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 h-full flex flex-col p-4">
-        {/* Chat/Content Area - Full height */}
-        <div className="flex-1 flex flex-col min-h-0">
-          <AnimatePresence mode="wait">
-            {/* Chat Phases */}
-            {(phase === "chat1" || phase === "chat2" || phase === "chat3" || phase === "chat4") && (
-              <motion.div
-                key={phase}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex-1 flex flex-col bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
-              >
-                {/* Chat Header */}
-                <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-white/[0.02]">
-                  <div className="flex items-center gap-2">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    >
-                      <Sparkles className="w-4 h-4 text-cyan-400" />
-                    </motion.div>
-                    <span className="text-white font-medium text-sm">Aria Engine</span>
-                  </div>
-                  <button className="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
-                    <X className="w-3.5 h-3.5 text-white/50" />
-                  </button>
-                </div>
-
-                {/* Messages */}
-                <div className="flex-1 p-4 space-y-4 overflow-hidden">
-                  {phase === "chat1" && (
-                    <>
-                      <ChatBubbleUser>
-                        The pneumatic valve on line 3 isn't responding. Error code PNE-2847 on the display.
-                      </ChatBubbleUser>
-                      <ChatBubbleAria>
-                        <p className="font-semibold text-cyan-300 mb-1">PNE-2847 - Pneumatic Valve Fault</p>
-                        <p className="text-white/70">This error indicates a pressure regulation issue. Let's troubleshoot together.</p>
-                        <p className="mt-2">
-                          <span className="text-cyan-400 font-medium">First:</span>{" "}
-                          <span className="text-white/70">Can you check if the air supply pressure is above 6 bar?</span>
-                        </p>
-                      </ChatBubbleAria>
-                    </>
-                  )}
-                  {phase === "chat2" && (
-                    <>
-                      <ChatBubbleUser>
-                        Yes, pressure is at 6.2 bar. That looks fine.
-                      </ChatBubbleUser>
-                      <ChatBubbleAria>
-                        <p className="text-white/70">Good, supply pressure is normal. The issue might be internal.</p>
-                        <p className="mt-2">
-                          <span className="text-cyan-400 font-medium">Next step:</span>{" "}
-                          <span className="text-white/70">Try manually actuating the valve using the override button. Does it move?</span>
-                        </p>
-                      </ChatBubbleAria>
-                    </>
-                  )}
-                  {phase === "chat3" && (
-                    <>
-                      <ChatBubbleUser>
-                        I pressed the override but nothing happens. No movement at all.
-                      </ChatBubbleUser>
-                      <ChatBubbleAria>
-                        <p className="text-white/70">That confirms the valve mechanism itself is blocked.</p>
-                        <p className="mt-2">
-                          <span className="text-cyan-400 font-medium">Final check:</span>{" "}
-                          <span className="text-white/70">Can you listen for any air leak near the actuator?</span>
-                        </p>
-                      </ChatBubbleAria>
-                    </>
-                  )}
-                  {phase === "chat4" && (
-                    <>
-                      <ChatBubbleUser>
-                        Yes, I can hear air escaping from the side of the actuator.
-                      </ChatBubbleUser>
-                      <ChatBubbleAria>
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="flex items-center gap-2 text-amber-400 font-medium mb-2"
-                        >
-                          <AlertTriangle className="w-4 h-4" />
-                          <span>Diagnosis Complete</span>
-                        </motion.div>
-                        <p className="text-white/70">The internal diaphragm is ruptured. This valve requires full replacement.</p>
-                        <motion.p 
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 1 }}
-                          className="mt-2 text-white/50 text-xs flex items-center gap-2"
-                        >
-                          <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            className="w-3 h-3 rounded-full border border-white/30 border-t-white/80"
-                          />
-                          Checking warehouse inventory...
-                        </motion.p>
-                      </ChatBubbleAria>
-                    </>
-                  )}
-                </div>
-
-                {/* Input */}
-                <div className="p-4 border-t border-white/[0.08] bg-white/[0.02]">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-white/[0.06] rounded-full px-4 py-2.5 border border-white/[0.08]">
-                      <span className="text-white/30 text-sm">Type or press and hold...</span>
-                    </div>
-                    <motion.button 
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/30"
-                    >
-                      <Mic className="w-5 h-5 text-white" />
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Broken Phase */}
-            {phase === "broken" && (
-              <motion.div
-                key="broken"
-                className="flex-1 flex items-center justify-center"
-              >
-                <StatusCard
-                  borderColor="border-red-500/30"
-                  icon={<XCircle className="w-6 h-6 text-red-400" />}
-                  iconBg="bg-gradient-to-br from-red-500/30 to-red-600/20"
-                  title="Component Irreparable"
-                  subtitle="Replacement required"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="bg-red-500/10 rounded-xl p-3 border border-red-500/20"
-                  >
-                    <p className="text-white/70 text-sm">
-                      Pneumatic Valve <span className="text-white font-semibold">PNV-3847</span>
-                    </p>
-                    <p className="text-red-400/80 text-xs mt-1">Diaphragm failure confirmed</p>
-                  </motion.div>
-                </StatusCard>
-              </motion.div>
-            )}
-
-            {/* Warehouse Phase */}
-            {phase === "warehouse" && (
-              <motion.div
-                key="warehouse"
-                className="flex-1 flex items-center justify-center"
-              >
-                <StatusCard
-                  borderColor="border-orange-500/30"
-                  icon={
-                    <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5, repeat: Infinity }}>
-                      <Package className="w-6 h-6 text-orange-400" />
-                    </motion.div>
-                  }
-                  iconBg="bg-gradient-to-br from-orange-500/30 to-orange-600/20"
-                  title="Searching Warehouse"
-                  subtitle="Looking for PNV-3847..."
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1 }}
-                    className="bg-orange-500/10 rounded-xl p-3 border border-orange-500/20 flex items-center gap-3"
-                  >
-                    <AlertTriangle className="w-5 h-5 text-orange-400 flex-shrink-0" />
-                    <p className="text-white/70 text-sm">No spare parts available. Last unit used 2 weeks ago.</p>
-                  </motion.div>
-                </StatusCard>
-              </motion.div>
-            )}
-
-            {/* Order Phase */}
-            {phase === "order" && (
-              <motion.div
-                key="order"
-                className="flex-1 flex items-center justify-center"
-              >
-                <StatusCard
-                  borderColor="border-violet-500/30"
-                  icon={<ShoppingCart className="w-6 h-6 text-violet-400" />}
-                  iconBg="bg-gradient-to-br from-violet-500/30 to-purple-600/20"
-                  title="Order Required"
-                  subtitle="Part found at supplier"
-                >
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-white/70 text-sm mb-4"
-                  >
-                    <span className="text-violet-400 font-semibold">PNV-3847</span> available at Festo Industrial Supply with 24h express delivery.
-                  </motion.p>
-                  
-                  <AnimatePresence>
-                    {showOrderButton && (
-                      <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold flex items-center justify-center gap-3 shadow-xl shadow-violet-500/30"
+      <div className="relative z-10 h-full flex flex-col">
+        <AnimatePresence mode="wait">
+          {/* Chat Phases */}
+          {(phase === "chat1" || phase === "chat2" || phase === "chat3" || phase === "chat4") && (
+            <motion.div
+              key={phase}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex-1 flex flex-col h-full"
+            >
+              {/* Messages Area */}
+              <div className="flex-1 p-5 space-y-4 overflow-auto">
+                {phase === "chat1" && (
+                  <>
+                    <ChatBubbleUser>
+                      The pneumatic valve on line 3 isn't responding. Error code PNE-2847 on the display.
+                    </ChatBubbleUser>
+                    <ChatBubbleAria>
+                      <p className="font-semibold text-cyan-700 mb-1">PNE-2847 - Pneumatic Valve Fault</p>
+                      <p className="text-slate-600">This error indicates a pressure regulation issue. Let's troubleshoot together.</p>
+                      <p className="mt-2">
+                        <span className="text-cyan-600 font-medium">First:</span>{" "}
+                        <span className="text-slate-600">Can you check if the air supply pressure is above 6 bar?</span>
+                      </p>
+                    </ChatBubbleAria>
+                  </>
+                )}
+                {phase === "chat2" && (
+                  <>
+                    <ChatBubbleUser>
+                      Yes, pressure is at 6.2 bar. That looks fine.
+                    </ChatBubbleUser>
+                    <ChatBubbleAria>
+                      <p className="text-slate-600">Good, supply pressure is normal. The issue might be internal.</p>
+                      <p className="mt-2">
+                        <span className="text-cyan-600 font-medium">Next step:</span>{" "}
+                        <span className="text-slate-600">Try manually actuating the valve using the override button. Does it move?</span>
+                      </p>
+                    </ChatBubbleAria>
+                  </>
+                )}
+                {phase === "chat3" && (
+                  <>
+                    <ChatBubbleUser>
+                      I pressed the override but nothing happens. No movement at all.
+                    </ChatBubbleUser>
+                    <ChatBubbleAria>
+                      <p className="text-slate-600">That confirms the valve mechanism itself is blocked.</p>
+                      <p className="mt-2">
+                        <span className="text-cyan-600 font-medium">Final check:</span>{" "}
+                        <span className="text-slate-600">Can you listen for any air leak near the actuator?</span>
+                      </p>
+                    </ChatBubbleAria>
+                  </>
+                )}
+                {phase === "chat4" && (
+                  <>
+                    <ChatBubbleUser>
+                      Yes, I can hear air escaping from the side of the actuator.
+                    </ChatBubbleUser>
+                    <ChatBubbleAria>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="flex items-center gap-2 text-amber-600 font-medium mb-2"
                       >
-                        <ShoppingCart className="w-5 h-5" />
-                        Order Now - Express 24h
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Diagnosis Complete</span>
+                      </motion.div>
+                      <p className="text-slate-600">The internal diaphragm is ruptured. This valve requires full replacement.</p>
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1 }}
+                        className="mt-2 text-slate-500 text-xs flex items-center gap-2"
+                      >
                         <motion.div
-                          className="w-2 h-2 rounded-full bg-white"
-                          animate={{ opacity: [1, 0.3, 1] }}
-                          transition={{ duration: 1, repeat: Infinity }}
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-3 h-3 rounded-full border border-slate-400 border-t-slate-600"
                         />
-                      </motion.button>
-                    )}
-                  </AnimatePresence>
-                </StatusCard>
-              </motion.div>
-            )}
+                        Checking warehouse inventory...
+                      </motion.p>
+                    </ChatBubbleAria>
+                  </>
+                )}
+              </div>
 
-            {/* Confirmed Phase */}
-            {phase === "confirmed" && (
-              <motion.div
-                key="confirmed"
-                className="flex-1 flex items-center justify-center"
-              >
-                <StatusCard
-                  borderColor="border-emerald-500/30"
-                  icon={
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: [0, 1.2, 1] }}
-                      transition={{ type: "spring", damping: 10 }}
-                    >
-                      <CheckCircle2 className="w-6 h-6 text-emerald-400" />
-                    </motion.div>
-                  }
-                  iconBg="bg-gradient-to-br from-emerald-500/30 to-emerald-600/20"
-                  title="Order Confirmed"
-                  subtitle="Email sent to supplier"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="bg-white/[0.04] rounded-xl p-4 border border-white/10 space-y-3"
+              {/* Input Bar */}
+              <div className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 bg-white/70 backdrop-blur-sm rounded-full px-5 py-3 border border-black/[0.08] shadow-sm">
+                    <span className="text-slate-400 text-sm">Type or press and hold...</span>
+                  </div>
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-11 h-11 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/30"
                   >
-                    <div className="flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-white/40" />
-                      <span className="text-white/40 text-xs">To:</span>
-                      <span className="text-white/80 text-sm">orders@festo.com</span>
-                    </div>
-                    <div className="border-t border-white/10 pt-3 grid grid-cols-2 gap-2">
-                      <p className="text-white/50 text-xs">Part: <span className="text-white/80">PNV-3847</span></p>
-                      <p className="text-white/50 text-xs">Qty: <span className="text-white/80">1 unit</span></p>
-                      <p className="text-white/50 text-xs">Delivery: <span className="text-emerald-400">24h Express</span></p>
-                      <p className="text-white/50 text-xs">Ref: <span className="text-white/80">#4521</span></p>
-                    </div>
+                    <Mic className="w-5 h-5 text-white" />
+                  </motion.button>
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-11 h-11 rounded-full bg-red-500 flex items-center justify-center shadow-lg shadow-red-500/30"
+                  >
+                    <X className="w-5 h-5 text-white" />
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Broken Phase */}
+          {phase === "broken" && (
+            <motion.div
+              key="broken"
+              className="flex-1 flex items-center justify-center p-6"
+            >
+              <StatusCard
+                borderColor="border-red-200"
+                icon={<XCircle className="w-6 h-6 text-red-500" />}
+                iconBg="bg-gradient-to-br from-red-100 to-red-200"
+                title="Component Irreparable"
+                subtitle="Replacement required"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="bg-red-50 rounded-xl p-3 border border-red-200"
+                >
+                  <p className="text-slate-700 text-sm">
+                    Pneumatic Valve <span className="text-slate-900 font-semibold">PNV-3847</span>
+                  </p>
+                  <p className="text-red-600 text-xs mt-1">Diaphragm failure confirmed</p>
+                </motion.div>
+              </StatusCard>
+            </motion.div>
+          )}
+
+          {/* Warehouse Phase */}
+          {phase === "warehouse" && (
+            <motion.div
+              key="warehouse"
+              className="flex-1 flex items-center justify-center p-6"
+            >
+              <StatusCard
+                borderColor="border-orange-200"
+                icon={
+                  <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5, repeat: Infinity }}>
+                    <Package className="w-6 h-6 text-orange-500" />
                   </motion.div>
-                </StatusCard>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                }
+                iconBg="bg-gradient-to-br from-orange-100 to-orange-200"
+                title="Searching Warehouse"
+                subtitle="Looking for PNV-3847..."
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1 }}
+                  className="bg-orange-50 rounded-xl p-3 border border-orange-200 flex items-center gap-3"
+                >
+                  <AlertTriangle className="w-5 h-5 text-orange-500 flex-shrink-0" />
+                  <p className="text-slate-700 text-sm">No spare parts available. Last unit used 2 weeks ago.</p>
+                </motion.div>
+              </StatusCard>
+            </motion.div>
+          )}
+
+          {/* Order Phase */}
+          {phase === "order" && (
+            <motion.div
+              key="order"
+              className="flex-1 flex items-center justify-center p-6"
+            >
+              <StatusCard
+                borderColor="border-violet-200"
+                icon={<ShoppingCart className="w-6 h-6 text-violet-500" />}
+                iconBg="bg-gradient-to-br from-violet-100 to-violet-200"
+                title="Order Required"
+                subtitle="Part found at supplier"
+              >
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-slate-600 text-sm mb-4"
+                >
+                  <span className="text-violet-600 font-semibold">PNV-3847</span> available at Festo Industrial Supply with 24h express delivery.
+                </motion.p>
+                
+                <AnimatePresence>
+                  {showOrderButton && (
+                    <motion.button
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold flex items-center justify-center gap-3 shadow-xl shadow-violet-500/30"
+                    >
+                      <ShoppingCart className="w-5 h-5" />
+                      Order Now - Express 24h
+                      <motion.div
+                        className="w-2 h-2 rounded-full bg-white"
+                        animate={{ opacity: [1, 0.3, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      />
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+              </StatusCard>
+            </motion.div>
+          )}
+
+          {/* Confirmed Phase */}
+          {phase === "confirmed" && (
+            <motion.div
+              key="confirmed"
+              className="flex-1 flex items-center justify-center p-6"
+            >
+              <StatusCard
+                borderColor="border-emerald-200"
+                icon={
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: [0, 1.2, 1] }}
+                    transition={{ type: "spring", damping: 10 }}
+                  >
+                    <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+                  </motion.div>
+                }
+                iconBg="bg-gradient-to-br from-emerald-100 to-emerald-200"
+                title="Order Confirmed"
+                subtitle="Email sent to supplier"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3"
+                >
+                  <div className="flex items-center gap-2">
+                    <Mail className="w-4 h-4 text-slate-400" />
+                    <span className="text-slate-400 text-xs">To:</span>
+                    <span className="text-slate-700 text-sm">orders@festo.com</span>
+                  </div>
+                  <div className="border-t border-slate-200 pt-3 grid grid-cols-2 gap-2">
+                    <p className="text-slate-500 text-xs">Part: <span className="text-slate-700">PNV-3847</span></p>
+                    <p className="text-slate-500 text-xs">Qty: <span className="text-slate-700">1 unit</span></p>
+                    <p className="text-slate-500 text-xs">Delivery: <span className="text-emerald-600">24h Express</span></p>
+                    <p className="text-slate-500 text-xs">Ref: <span className="text-slate-700">#4521</span></p>
+                  </div>
+                </motion.div>
+              </StatusCard>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
