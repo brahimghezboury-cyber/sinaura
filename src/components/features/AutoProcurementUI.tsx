@@ -171,39 +171,9 @@ const AutoProcurementUI = () => {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 h-full flex flex-col p-5">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-4"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-xl border border-white/10 flex items-center justify-center">
-              <MessageCircle className="w-5 h-5 text-cyan-400" />
-            </div>
-            <div>
-              <p className="text-white font-semibold text-sm">Auto Procurement</p>
-              <p className="text-white/40 text-xs">AI-Guided Troubleshooting</p>
-            </div>
-          </div>
-          <motion.div
-            key={phase}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center gap-2"
-          >
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-2 h-2 rounded-full bg-cyan-400"
-            />
-            <span className="text-white/60 text-xs">Live Session</span>
-          </motion.div>
-        </motion.div>
-
-        {/* Chat/Content Area */}
-        <div className="flex-1 flex flex-col">
+      <div className="relative z-10 h-full flex flex-col p-4">
+        {/* Chat/Content Area - Full height */}
+        <div className="flex-1 flex flex-col min-h-0">
           <AnimatePresence mode="wait">
             {/* Chat Phases */}
             {(phase === "chat1" || phase === "chat2" || phase === "chat3" || phase === "chat4") && (
