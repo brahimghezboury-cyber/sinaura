@@ -103,13 +103,33 @@ const AutoProcurementUI = () => {
     </motion.div>
   );
 
+  // Prevent scroll propagation
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    const isAtTop = scrollTop === 0;
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+    
+    // Only prevent default if we can scroll in that direction
+    if ((e.deltaY < 0 && !isAtTop) || (e.deltaY > 0 && !isAtBottom)) {
+      e.stopPropagation();
+    } else if ((e.deltaY < 0 && isAtTop) || (e.deltaY > 0 && isAtBottom)) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
   return (
-    <div className="w-full h-full bg-gradient-to-br from-slate-200/80 via-slate-100 to-slate-200/80 rounded-2xl overflow-hidden relative">
+    <div className="w-full h-full bg-gradient-to-br from-slate-200/80 via-slate-100 to-slate-200/80 rounded-2xl overflow-hidden relative isolate">
       {/* Frosted glass overlay */}
       <div className="absolute inset-0 backdrop-blur-xl bg-white/40" />
       
       {/* Subtle animated gradient */}
-      <div className="absolute inset-0 overflow-hidden opacity-30">
+      <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
         <motion.div
           animate={{ 
             x: [0, 50, 0],
@@ -135,12 +155,14 @@ const AutoProcurementUI = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex-1 flex flex-col h-full"
+            className="flex-1 flex flex-col h-full overflow-hidden"
           >
             {/* Messages Area - Scrollable */}
             <div 
-              className="flex-1 p-5 space-y-4 overflow-y-auto overscroll-contain"
-              onWheel={(e) => e.stopPropagation()}
+              className="flex-1 p-5 space-y-4 overflow-y-auto overscroll-none touch-pan-y"
+              onScroll={handleScroll}
+              onWheel={handleWheel}
+              style={{ overscrollBehavior: 'contain' }}
             >
               {/* User message 1 */}
               {visibleMessages.includes("user1") && (
