@@ -207,7 +207,7 @@ const AutoProcurementUI = () => {
               </motion.div>
             )}
 
-            {/* Repair Procedure Phase */}
+            {/* Repair Procedure Phase - Natural Language */}
             {phase === "repair" && (
               <motion.div
                 key="repair"
@@ -216,25 +216,26 @@ const AutoProcurementUI = () => {
                 exit={{ opacity: 0 }}
                 className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10"
               >
-                <p className="text-white/60 text-xs mb-3">Attempting repair procedure...</p>
-                <div className="space-y-2">
-                  {["Recalibrating pressure sensor", "Adjusting seal tension", "Testing flow rate"].map((step, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.3 }}
-                      className="flex items-center gap-2"
-                    >
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="w-4 h-4 rounded-full border border-amber-400/50 border-t-amber-400"
-                      />
-                      <span className="text-white/70 text-xs">{step}</span>
-                    </motion.div>
-                  ))}
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                  <span className="text-cyan-400 text-xs font-medium">ARIA ENGINE</span>
                 </div>
+                <p className="text-white/90 text-sm leading-relaxed">
+                  I'm attempting to resolve the issue. Let me try recalibrating the pressure sensor and adjusting the seal tension...
+                </p>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                  className="mt-3 flex items-center gap-2 text-amber-400 text-xs"
+                >
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-3 h-3 rounded-full border border-amber-400/50 border-t-amber-400"
+                  />
+                  <span>Running diagnostics...</span>
+                </motion.div>
               </motion.div>
             )}
 
