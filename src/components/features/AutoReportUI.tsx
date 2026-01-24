@@ -170,10 +170,10 @@ const AutoReportUI = () => {
   );
 
   const reportSections = [
-    { icon: Wrench, label: "Intervention", value: "Thermal valve #V-127 replaced" },
-    { icon: Clock, label: "Duration", value: "47 minutes" },
-    { icon: Camera, label: "Documentation", value: "3 photos attached" },
-    { icon: ClipboardCheck, label: "Checklist", value: "3/3 steps verified" }
+    { icon: Wrench, label: "Intervento", value: "Manutenzione ordinaria trimestrale" },
+    { icon: Clock, label: "Durata", value: "32 minuti" },
+    { icon: Camera, label: "Documentazione", value: "4 foto allegate" },
+    { icon: ClipboardCheck, label: "Checklist", value: "5/5 controlli superati" }
   ];
 
   return (
@@ -218,65 +218,67 @@ const AutoReportUI = () => {
                 {phase === "chat1" && (
                   <>
                     <ChatBubbleAria delay={0}>
-                      <div className="flex items-center gap-2 text-emerald-600 font-medium mb-2">
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Maintenance Complete</span>
+                      <div className="flex items-center gap-2 text-blue-600 font-medium mb-2">
+                        <Wrench className="w-4 h-4" />
+                        <span>Manutenzione Programmata</span>
                       </div>
-                      <p className="text-slate-600">Thermal valve #V-127 has been replaced. Let's document the intervention.</p>
+                      <p className="text-slate-600">Iniziamo la manutenzione ordinaria trimestrale della Linea 3.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 1:</span>{" "}
-                        <span className="text-slate-600">Please take a photo of the replaced component.</span>
+                        <span className="text-slate-600">Verifica il livello dell'olio idraulico e scatta una foto.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat2" && (
                   <>
-                    <ChatBubblePhoto label="Old component" />
+                    <ChatBubblePhoto label="Livello olio OK" />
                     <ChatBubbleAria>
-                      <p className="text-slate-600">Photo received and catalogued.</p>
+                      <p className="text-slate-600">Livello olio conforme. Registrato nel report.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 2:</span>{" "}
-                        <span className="text-slate-600">Confirm you disconnected the power supply before the intervention.</span>
+                        <span className="text-slate-600">Controlla lo stato del filtro aria e documenta.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat3" && (
                   <>
-                    <ChatBubbleUser>
-                      Confirmed, power was disconnected at 14:05.
-                    </ChatBubbleUser>
+                    <ChatBubblePhoto label="Filtro aria" />
                     <ChatBubbleAria>
-                      <p className="text-slate-600">Perfect. Timestamped in the report.</p>
+                      <p className="text-slate-600">Filtro in buone condizioni. Prossima sostituzione tra 60 giorni.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 3:</span>{" "}
-                        <span className="text-slate-600">Take a photo of the new valve installation.</span>
+                        <span className="text-slate-600">Verifica la pressione del circuito pneumatico (range: 5.5-6.5 bar).</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat4" && (
                   <>
-                    <ChatBubblePhoto label="New installation" />
+                    <ChatBubbleUser>
+                      Pressione a 6.2 bar, nella norma.
+                    </ChatBubbleUser>
                     <ChatBubbleAria>
-                      <p className="text-slate-600">Installation verified. The valve is correctly positioned.</p>
+                      <p className="text-slate-600">Perfetto. Valore registrato.</p>
                       <p className="mt-2">
-                        <span className="text-cyan-600 font-medium">Final step:</span>{" "}
-                        <span className="text-slate-600">Take a photo of the final connection for quality check.</span>
+                        <span className="text-cyan-600 font-medium">Step 4:</span>{" "}
+                        <span className="text-slate-600">Ispeziona i punti di lubrificazione e conferma ingrassaggio completato.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat5" && (
                   <>
-                    <ChatBubblePhoto label="Final verification" />
+                    <ChatBubbleUser>
+                      Lubrificazione completata su tutti i punti.
+                    </ChatBubbleUser>
                     <ChatBubbleAria>
                       <div className="flex items-center gap-2 text-emerald-600 font-medium mb-2">
                         <CheckCircle2 className="w-4 h-4" />
-                        <span>Documentation Complete</span>
+                        <span>Checklist Completata</span>
                       </div>
-                      <p className="text-slate-600">All verification steps completed. Generating automatic report...</p>
+                      <p className="text-slate-600">Tutti i controlli superati. Genero il report automatico...</p>
                       <motion.p 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -288,7 +290,7 @@ const AutoReportUI = () => {
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                           className="w-3 h-3 rounded-full border border-slate-400 border-t-slate-600"
                         />
-                        Compiling report data...
+                        Compilazione dati...
                       </motion.p>
                     </ChatBubbleAria>
                   </>
