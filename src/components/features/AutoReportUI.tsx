@@ -42,13 +42,13 @@ const AutoReportUI = () => {
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
     
-    timers.push(setTimeout(() => setPhase("chat2"), 2400));
-    timers.push(setTimeout(() => setPhase("chat3"), 4800));
-    timers.push(setTimeout(() => setPhase("chat4"), 7200));
-    timers.push(setTimeout(() => setPhase("chat5"), 9600));
-    timers.push(setTimeout(() => setPhase("chat6"), 12000));
-    timers.push(setTimeout(() => setPhase("chat7"), 14400));
-    timers.push(setTimeout(() => setPhase("generating"), 17000));
+    timers.push(setTimeout(() => setPhase("chat2"), 2200));
+    timers.push(setTimeout(() => setPhase("chat3"), 4200));
+    timers.push(setTimeout(() => setPhase("chat4"), 6200));
+    timers.push(setTimeout(() => setPhase("chat5"), 8200));
+    timers.push(setTimeout(() => setPhase("chat6"), 10200));
+    timers.push(setTimeout(() => setPhase("chat7"), 12200));
+    timers.push(setTimeout(() => setPhase("generating"), 14000));
     timers.push(setTimeout(() => {
       setPhase("report");
       let sectionCount = 0;
@@ -57,13 +57,13 @@ const AutoReportUI = () => {
         setVisibleSections(sectionCount);
         if (sectionCount >= 5) clearInterval(sectionInterval);
       }, 200);
-    }, 19500));
-    timers.push(setTimeout(() => setShowPdf(true), 22500));
+    }, 16500));
+    timers.push(setTimeout(() => setShowPdf(true), 19500));
     timers.push(setTimeout(() => {
       setPhase("chat1");
       setVisibleSections(0);
       setShowPdf(false);
-    }, 28000));
+    }, 25000));
 
     return () => timers.forEach(clearTimeout);
   }, [phase === "chat1"]);
@@ -200,11 +200,11 @@ const AutoReportUI = () => {
   );
 
   const reportSections = [
-    { icon: Wrench, label: "Procedure", value: "Quarterly CNC Maintenance" },
-    { icon: Clock, label: "Duration", value: "34 min • 7 checkpoints" },
-    { icon: Camera, label: "Evidence", value: "6 photos attached" },
-    { icon: AlertTriangle, label: "Findings", value: "1 warning logged" },
-    { icon: ClipboardCheck, label: "Result", value: "Passed with notes" }
+    { icon: Wrench, label: "Procedure", value: "Daily Routine Check" },
+    { icon: Clock, label: "Duration", value: "18 min • 5 checkpoints" },
+    { icon: Camera, label: "Evidence", value: "4 photos attached" },
+    { icon: CheckCircle2, label: "Findings", value: "All clear" },
+    { icon: ClipboardCheck, label: "Result", value: "Passed ✓" }
   ];
 
   return (
@@ -245,85 +245,76 @@ const AutoReportUI = () => {
                     <ChatBubbleAria delay={0}>
                       <div className="flex items-center gap-2 text-blue-600 font-medium mb-1.5">
                         <Wrench className="w-3.5 h-3.5" />
-                        <span>Q1 Preventive Maintenance</span>
+                        <span>Daily Routine Check</span>
                       </div>
-                      <p className="text-slate-600">Starting inspection on <span className="font-semibold text-slate-800">CNC Lathe #12</span>. 7-point checklist loaded.</p>
+                      <p className="text-slate-600">Starting daily inspection on <span className="font-semibold text-slate-800">Assembly Line #3</span>.</p>
                       <p className="mt-1.5">
-                        <span className="text-cyan-600 font-medium">Step 1/7:</span>{" "}
-                        <span className="text-slate-600">Measure spindle bearing temperature. Range: 18-26°C.</span>
+                        <span className="text-cyan-600 font-medium">Step 1/5:</span>{" "}
+                        <span className="text-slate-600">Lubricate conveyor bearings.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat2" && (
                   <>
-                    <ChatBubblePhoto label="Bearing: 23.1°C" icon={Thermometer} />
+                    <ChatBubblePhoto label="Bearings lubed" icon={Droplets} />
                     <ChatBubbleAria>
-                      <p><span className="text-emerald-600 font-medium">✓ Normal.</span> Within thermal limits.</p>
+                      <p><span className="text-emerald-600 font-medium">✓ Done.</span> Moving on.</p>
                       <p className="mt-1.5">
-                        <span className="text-cyan-600 font-medium">Step 2/7:</span>{" "}
-                        <span className="text-slate-600">Check hydraulic system pressure. Target: 2800-3200 PSI.</span>
+                        <span className="text-cyan-600 font-medium">Step 2/5:</span>{" "}
+                        <span className="text-slate-600">Clean air filters.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat3" && (
                   <>
-                    <ChatBubbleUser>Reading 2950 PSI on gauge.</ChatBubbleUser>
-                    <ChatBubblePhoto label="Hydraulic: 2950 PSI" icon={Gauge} />
+                    <ChatBubbleUser>Filters cleaned and replaced.</ChatBubbleUser>
+                    <ChatBubblePhoto label="Filters OK" icon={Settings} />
                     <ChatBubbleAria>
-                      <p><span className="text-emerald-600 font-medium">✓ Optimal.</span> Logged.</p>
+                      <p><span className="text-emerald-600 font-medium">✓ Logged.</span></p>
                       <p className="mt-1.5">
-                        <span className="text-cyan-600 font-medium">Step 3/7:</span>{" "}
-                        <span className="text-slate-600">Inspect coolant concentration. Expected: 8-12%.</span>
+                        <span className="text-cyan-600 font-medium">Step 3/5:</span>{" "}
+                        <span className="text-slate-600">Check hydraulic oil level.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat4" && (
                   <>
-                    <ChatBubbleUser>Refractometer shows 7.2%.</ChatBubbleUser>
-                    <ChatBubbleWarning>
-                      <p className="font-medium">Coolant below threshold (7.2% &lt; 8%)</p>
-                      <p className="mt-1 text-amber-700">Recommend adding 2L concentrate. Continue?</p>
-                    </ChatBubbleWarning>
+                    <ChatBubbleUser>Oil level at 85%.</ChatBubbleUser>
+                    <ChatBubblePhoto label="Oil: 85%" icon={Gauge} />
+                    <ChatBubbleAria>
+                      <p><span className="text-emerald-600 font-medium">✓ Within range.</span></p>
+                      <p className="mt-1.5">
+                        <span className="text-cyan-600 font-medium">Step 4/5:</span>{" "}
+                        <span className="text-slate-600">Visual inspection of belts and chains.</span>
+                      </p>
+                    </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat5" && (
                   <>
-                    <ChatBubbleUser>Added 2L. Now reading 9.8%.</ChatBubbleUser>
-                    <ChatBubblePhoto label="Coolant: 9.8%" icon={Droplets} />
+                    <ChatBubblePhoto label="Belts OK" icon={RotateCcw} />
                     <ChatBubbleAria>
-                      <p><span className="text-emerald-600 font-medium">✓ Corrected.</span> Logged adjustment.</p>
+                      <p><span className="text-emerald-600 font-medium">✓ No wear detected.</span></p>
                       <p className="mt-1.5">
-                        <span className="text-cyan-600 font-medium">Step 4/7:</span>{" "}
-                        <span className="text-slate-600">Test servo motor response time. Max: 15ms.</span>
+                        <span className="text-cyan-600 font-medium">Step 5/5:</span>{" "}
+                        <span className="text-slate-600">Verify safety guards in place.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat6" && (
                   <>
-                    <ChatBubblePhoto label="Servo: 8.2ms" icon={Zap} />
-                    <ChatBubbleAria>
-                      <p><span className="text-emerald-600 font-medium">✓ Excellent response.</span></p>
-                      <p className="mt-1.5">
-                        <span className="text-cyan-600 font-medium">Step 5/7:</span>{" "}
-                        <span className="text-slate-600">Verify tool changer alignment. Run cycle test.</span>
-                      </p>
-                    </ChatBubbleAria>
-                  </>
-                )}
-                {phase === "chat7" && (
-                  <>
-                    <ChatBubblePhoto label="Changer aligned" icon={RotateCcw} />
-                    <ChatBubbleUser>Cycle test complete. No jams.</ChatBubbleUser>
+                    <ChatBubbleUser>All guards secured.</ChatBubbleUser>
+                    <ChatBubblePhoto label="Guards OK" icon={CheckCircle2} />
                     <ChatBubbleAria>
                       <div className="flex items-center gap-2 text-emerald-600 font-medium mb-1.5">
                         <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>All Checks Complete</span>
+                        <span>Routine Complete</span>
                       </div>
-                      <p className="text-slate-600">6/7 passed, 1 corrective action taken. Generating compliance report...</p>
+                      <p className="text-slate-600">All 5 checks passed. Generating daily report...</p>
                       <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -337,6 +328,17 @@ const AutoReportUI = () => {
                         />
                         Compiling data...
                       </motion.div>
+                    </ChatBubbleAria>
+                  </>
+                )}
+                {phase === "chat7" && (
+                  <>
+                    <ChatBubbleAria>
+                      <div className="flex items-center gap-2 text-emerald-600 font-medium mb-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Ready for Shift</span>
+                      </div>
+                      <p className="text-slate-600">Line #3 cleared for operation. Report ready.</p>
                     </ChatBubbleAria>
                   </>
                 )}
@@ -513,8 +515,8 @@ const AutoReportUI = () => {
                     transition={{ delay: 0.1 }}
                     className="text-center mb-3 pb-2 border-b border-slate-200"
                   >
-                    <p className="text-slate-800 font-bold text-xs">MAINTENANCE REPORT</p>
-                    <p className="text-slate-500 text-[9px]">CNC Lathe #12 • January 24, 2026</p>
+                    <p className="text-slate-800 font-bold text-xs">DAILY ROUTINE CHECK</p>
+                    <p className="text-slate-500 text-[9px]">Assembly Line #3 • January 24, 2026</p>
                   </motion.div>
 
                   {/* Report Details */}
@@ -526,11 +528,11 @@ const AutoReportUI = () => {
                   >
                     <div className="flex justify-between">
                       <span className="text-slate-500">Type</span>
-                      <span className="text-slate-800 font-medium">Preventive Q1</span>
+                      <span className="text-slate-800 font-medium">Daily Check</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Duration</span>
-                      <span className="text-slate-800 font-medium">34 min</span>
+                      <span className="text-slate-800 font-medium">18 min</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Technician</span>
@@ -552,11 +554,11 @@ const AutoReportUI = () => {
                     <p className="text-slate-700 text-[9px] font-semibold mb-1.5">INSPECTION RESULTS</p>
                     <div className="space-y-1">
                       {[
-                        { label: "Bearing Temp", value: "23.1°C", status: "pass" },
-                        { label: "Hydraulic", value: "2950 PSI", status: "pass" },
-                        { label: "Coolant", value: "9.8%", status: "corrected" },
-                        { label: "Servo Response", value: "8.2ms", status: "pass" },
-                        { label: "Tool Changer", value: "Aligned", status: "pass" }
+                        { label: "Bearings", value: "Lubricated", status: "pass" },
+                        { label: "Air Filters", value: "Cleaned", status: "pass" },
+                        { label: "Oil Level", value: "85%", status: "pass" },
+                        { label: "Belts & Chains", value: "OK", status: "pass" },
+                        { label: "Safety Guards", value: "Secured", status: "pass" }
                       ].map((item, i) => (
                         <motion.div 
                           key={item.label}
@@ -568,11 +570,7 @@ const AutoReportUI = () => {
                           <span className="text-slate-600 text-[8px]">{item.label}</span>
                           <div className="flex items-center gap-1">
                             <span className="text-slate-800 text-[8px] font-medium">{item.value}</span>
-                            {item.status === "corrected" ? (
-                              <Settings className="w-2.5 h-2.5 text-amber-500" />
-                            ) : (
-                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-500" />
-                            )}
+                            <CheckCircle2 className="w-2.5 h-2.5 text-emerald-500" />
                           </div>
                         </motion.div>
                       ))}
