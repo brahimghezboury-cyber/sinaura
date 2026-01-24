@@ -13,7 +13,11 @@ import {
   Share2,
   Clock,
   Wrench,
-  ClipboardCheck
+  ClipboardCheck,
+  Thermometer,
+  Gauge,
+  Droplets,
+  Zap
 } from "lucide-react";
 
 type Phase = 
@@ -32,25 +36,24 @@ const AutoReportUI = () => {
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
     
-    timers.push(setTimeout(() => setPhase("chat2"), 3000));
-    timers.push(setTimeout(() => setPhase("chat3"), 6000));
-    timers.push(setTimeout(() => setPhase("chat4"), 9000));
-    timers.push(setTimeout(() => setPhase("chat5"), 12000));
-    timers.push(setTimeout(() => setPhase("generating"), 15000));
+    timers.push(setTimeout(() => setPhase("chat2"), 2800));
+    timers.push(setTimeout(() => setPhase("chat3"), 5400));
+    timers.push(setTimeout(() => setPhase("chat4"), 8000));
+    timers.push(setTimeout(() => setPhase("chat5"), 10600));
+    timers.push(setTimeout(() => setPhase("generating"), 13500));
     timers.push(setTimeout(() => {
       setPhase("report");
-      // Start showing sections progressively
       let sectionCount = 0;
       const sectionInterval = setInterval(() => {
         sectionCount++;
         setVisibleSections(sectionCount);
         if (sectionCount >= 4) clearInterval(sectionInterval);
-      }, 300);
-    }, 17500));
+      }, 250);
+    }, 16000));
     timers.push(setTimeout(() => {
       setPhase("chat1");
       setVisibleSections(0);
-    }, 24000));
+    }, 22000));
 
     return () => timers.forEach(clearTimeout);
   }, [phase === "chat1"]);
@@ -65,14 +68,14 @@ const AutoReportUI = () => {
       <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-lg shadow-blue-500/20">
         <div className="flex items-center gap-1.5 mb-1.5">
           <User className="w-3 h-3 text-white/80" />
-          <span className="text-[10px] font-semibold text-white/80 tracking-wide">OPERATOR</span>
+          <span className="text-[10px] font-semibold text-white/80 tracking-wide">TECH</span>
         </div>
         <p className="text-white text-sm leading-relaxed">{children}</p>
       </div>
     </motion.div>
   );
 
-  const ChatBubblePhoto = ({ label }: { label: string }) => (
+  const ChatBubblePhoto = ({ label, icon: Icon }: { label: string; icon?: React.ComponentType<{ className?: string }> }) => (
     <motion.div
       initial={{ opacity: 0, x: 30, scale: 0.9 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -81,11 +84,11 @@ const AutoReportUI = () => {
     >
       <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl rounded-tr-sm px-4 py-3 shadow-lg shadow-emerald-500/20 flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-          <Image className="w-5 h-5 text-white" />
+          {Icon ? <Icon className="w-5 h-5 text-white" /> : <Image className="w-5 h-5 text-white" />}
         </div>
         <div>
           <p className="text-white text-sm font-medium">{label}</p>
-          <p className="text-white/70 text-xs">Photo attached</p>
+          <p className="text-white/70 text-xs">Documented ✓</p>
         </div>
       </div>
     </motion.div>
@@ -170,10 +173,10 @@ const AutoReportUI = () => {
   );
 
   const reportSections = [
-    { icon: Wrench, label: "Intervento", value: "Manutenzione ordinaria trimestrale" },
-    { icon: Clock, label: "Durata", value: "32 minuti" },
-    { icon: Camera, label: "Documentazione", value: "4 foto allegate" },
-    { icon: ClipboardCheck, label: "Checklist", value: "5/5 controlli superati" }
+    { icon: Wrench, label: "Procedure", value: "Quarterly CNC Maintenance" },
+    { icon: Clock, label: "Duration", value: "28 min • 5 checkpoints" },
+    { icon: Camera, label: "Evidence", value: "4 photos attached" },
+    { icon: ClipboardCheck, label: "Status", value: "All systems nominal" }
   ];
 
   return (
@@ -220,69 +223,68 @@ const AutoReportUI = () => {
                     <ChatBubbleAria delay={0}>
                       <div className="flex items-center gap-2 text-blue-600 font-medium mb-2">
                         <Wrench className="w-4 h-4" />
-                        <span>Manutenzione Programmata</span>
+                        <span>Scheduled Maintenance</span>
                       </div>
-                      <p className="text-slate-600">Iniziamo la manutenzione ordinaria trimestrale della Linea 3.</p>
+                      <p className="text-slate-600">Starting Q1 preventive maintenance on <span className="font-medium text-slate-800">CNC Mill #7</span>.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 1:</span>{" "}
-                        <span className="text-slate-600">Verifica il livello dell'olio idraulico e scatta una foto.</span>
+                        <span className="text-slate-600">Check spindle temperature sensor. Expected: 18-24°C.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat2" && (
                   <>
-                    <ChatBubblePhoto label="Livello olio OK" />
+                    <ChatBubblePhoto label="Spindle: 21.3°C" icon={Thermometer} />
                     <ChatBubbleAria>
-                      <p className="text-slate-600">Livello olio conforme. Registrato nel report.</p>
+                      <p className="text-slate-600"><span className="text-emerald-600 font-medium">✓ Within spec.</span> Logged to maintenance record.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 2:</span>{" "}
-                        <span className="text-slate-600">Controlla lo stato del filtro aria e documenta.</span>
+                        <span className="text-slate-600">Verify hydraulic pressure. Target: 180-220 PSI.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat3" && (
                   <>
-                    <ChatBubblePhoto label="Filtro aria" />
+                    <ChatBubblePhoto label="Pressure: 198 PSI" icon={Gauge} />
                     <ChatBubbleAria>
-                      <p className="text-slate-600">Filtro in buone condizioni. Prossima sostituzione tra 60 giorni.</p>
+                      <p className="text-slate-600"><span className="text-emerald-600 font-medium">✓ Optimal range.</span> No adjustment needed.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 3:</span>{" "}
-                        <span className="text-slate-600">Verifica la pressione del circuito pneumatico (range: 5.5-6.5 bar).</span>
+                        <span className="text-slate-600">Inspect coolant level and quality. Check for contamination.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat4" && (
                   <>
+                    <ChatBubblePhoto label="Coolant OK" icon={Droplets} />
                     <ChatBubbleUser>
-                      Pressione a 6.2 bar, nella norma.
+                      Level at 85%. Color clear, no debris detected.
                     </ChatBubbleUser>
                     <ChatBubbleAria>
-                      <p className="text-slate-600">Perfetto. Valore registrato.</p>
+                      <p className="text-slate-600"><span className="text-emerald-600 font-medium">✓ Excellent.</span> Next refill scheduled in 45 days.</p>
                       <p className="mt-2">
                         <span className="text-cyan-600 font-medium">Step 4:</span>{" "}
-                        <span className="text-slate-600">Ispeziona i punti di lubrificazione e conferma ingrassaggio completato.</span>
+                        <span className="text-slate-600">Run electrical diagnostics on servo motors.</span>
                       </p>
                     </ChatBubbleAria>
                   </>
                 )}
                 {phase === "chat5" && (
                   <>
-                    <ChatBubbleUser>
-                      Lubrificazione completata su tutti i punti.
-                    </ChatBubbleUser>
+                    <ChatBubblePhoto label="Servo test passed" icon={Zap} />
                     <ChatBubbleAria>
                       <div className="flex items-center gap-2 text-emerald-600 font-medium mb-2">
                         <CheckCircle2 className="w-4 h-4" />
-                        <span>Checklist Completata</span>
+                        <span>All Checks Passed</span>
                       </div>
-                      <p className="text-slate-600">Tutti i controlli superati. Genero il report automatico...</p>
+                      <p className="text-slate-600">CNC Mill #7 is fully operational. Generating compliance report...</p>
                       <motion.p 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
+                        transition={{ delay: 0.8 }}
                         className="mt-2 text-slate-500 text-xs flex items-center gap-2"
                       >
                         <motion.div
@@ -290,7 +292,7 @@ const AutoReportUI = () => {
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                           className="w-3 h-3 rounded-full border border-slate-400 border-t-slate-600"
                         />
-                        Compilazione dati...
+                        Building report...
                       </motion.p>
                     </ChatBubbleAria>
                   </>
@@ -301,7 +303,7 @@ const AutoReportUI = () => {
               <div className="p-4">
                 <div className="flex items-center gap-3">
                   <div className="flex-1 bg-white/70 backdrop-blur-sm rounded-full px-5 py-3 border border-black/[0.08] shadow-sm">
-                    <span className="text-slate-400 text-sm">Confirm or take photo...</span>
+                    <span className="text-slate-400 text-sm">Speak or take photo...</span>
                   </div>
                   <motion.button 
                     whileHover={{ scale: 1.05 }}
@@ -344,7 +346,7 @@ const AutoReportUI = () => {
                 }
                 iconBg="bg-gradient-to-br from-cyan-100 to-cyan-200"
                 title="Generating Report"
-                subtitle="Compiling intervention data..."
+                subtitle="Processing maintenance data..."
               >
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -352,7 +354,7 @@ const AutoReportUI = () => {
                   transition={{ delay: 0.5 }}
                   className="space-y-2"
                 >
-                  {["Analyzing photos", "Compiling timeline", "Generating PDF"].map((text, i) => (
+                  {["Analyzing sensor readings", "Compiling photo evidence", "Generating PDF"].map((text, i) => (
                     <motion.div
                       key={text}
                       initial={{ width: 0 }}
@@ -391,8 +393,8 @@ const AutoReportUI = () => {
                   </motion.div>
                 }
                 iconBg="bg-gradient-to-br from-emerald-100 to-emerald-200"
-                title="Report Generated"
-                subtitle="MNT-2024-0847"
+                title="Report Complete"
+                subtitle="MNT-2026-0124"
               >
                 <div className="space-y-2 mb-4">
                   {reportSections.map((section, index) => (
@@ -425,17 +427,18 @@ const AutoReportUI = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex-1 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/30"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs font-medium rounded-xl shadow-lg shadow-emerald-500/30"
                   >
-                    <Download className="w-4 h-4" />
-                    Download PDF
+                    <Download className="w-3.5 h-3.5" />
+                    Download
                   </motion.button>
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 rounded-xl bg-white/60 backdrop-blur-xl border border-white/40 flex items-center justify-center shadow-lg"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/60 backdrop-blur-sm text-slate-700 text-xs font-medium rounded-xl border border-black/10"
                   >
-                    <Share2 className="w-5 h-5 text-slate-600" />
+                    <Share2 className="w-3.5 h-3.5" />
+                    Share
                   </motion.button>
                 </motion.div>
               </StatusCard>
