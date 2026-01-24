@@ -32,6 +32,7 @@ type Phase =
 const AutoReportUI = () => {
   const [phase, setPhase] = useState<Phase>("chat1");
   const [visibleSections, setVisibleSections] = useState(0);
+  const [showPdf, setShowPdf] = useState(false);
 
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
@@ -50,10 +51,12 @@ const AutoReportUI = () => {
         if (sectionCount >= 4) clearInterval(sectionInterval);
       }, 250);
     }, 16000));
+    timers.push(setTimeout(() => setShowPdf(true), 19000));
     timers.push(setTimeout(() => {
       setPhase("chat1");
       setVisibleSections(0);
-    }, 22000));
+      setShowPdf(false);
+    }, 25000));
 
     return () => timers.forEach(clearTimeout);
   }, [phase === "chat1"]);
@@ -376,7 +379,7 @@ const AutoReportUI = () => {
           )}
 
           {/* Report Phase */}
-          {phase === "report" && (
+          {phase === "report" && !showPdf && (
             <motion.div
               key="report"
               className="flex-1 flex items-center justify-center p-6"
@@ -442,6 +445,133 @@ const AutoReportUI = () => {
                   </motion.button>
                 </motion.div>
               </StatusCard>
+            </motion.div>
+          )}
+
+          {/* PDF Preview Phase */}
+          {phase === "report" && showPdf && (
+            <motion.div
+              key="pdf"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="flex-1 flex items-center justify-center p-4"
+            >
+              <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+                {/* PDF Header */}
+                <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-4 py-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-red-400" />
+                    <span className="text-white text-xs font-medium">MNT-2026-0124.pdf</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                    <span className="text-emerald-400 text-[10px]">Signed</span>
+                  </div>
+                </div>
+
+                {/* PDF Content */}
+                <div className="p-4 bg-white">
+                  {/* Company Header */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-center mb-4 pb-3 border-b border-slate-200"
+                  >
+                    <p className="text-slate-800 font-bold text-sm">MAINTENANCE REPORT</p>
+                    <p className="text-slate-500 text-[10px]">CNC Mill #7 • January 24, 2026</p>
+                  </motion.div>
+
+                  {/* Report Details */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-2 mb-4"
+                  >
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-500">Procedure</span>
+                      <span className="text-slate-800 font-medium">Quarterly Preventive</span>
+                    </div>
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-500">Technician</span>
+                      <span className="text-slate-800 font-medium">M. Rodriguez</span>
+                    </div>
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-500">Duration</span>
+                      <span className="text-slate-800 font-medium">28 minutes</span>
+                    </div>
+                  </motion.div>
+
+                  {/* Checklist */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-slate-50 rounded-lg p-3 mb-4"
+                  >
+                    <p className="text-slate-700 text-[10px] font-semibold mb-2">INSPECTION RESULTS</p>
+                    <div className="space-y-1.5">
+                      {[
+                        { label: "Spindle Temperature", value: "21.3°C", status: "pass" },
+                        { label: "Hydraulic Pressure", value: "198 PSI", status: "pass" },
+                        { label: "Coolant Level", value: "85%", status: "pass" },
+                        { label: "Servo Motors", value: "Nominal", status: "pass" }
+                      ].map((item, i) => (
+                        <motion.div 
+                          key={item.label}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.4 + i * 0.1 }}
+                          className="flex items-center justify-between"
+                        >
+                          <span className="text-slate-600 text-[9px]">{item.label}</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-slate-800 text-[9px] font-medium">{item.value}</span>
+                            <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Photos Grid */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="mb-4"
+                  >
+                    <p className="text-slate-700 text-[10px] font-semibold mb-2">PHOTO EVIDENCE</p>
+                    <div className="grid grid-cols-4 gap-1.5">
+                      {[Thermometer, Gauge, Droplets, Zap].map((Icon, i) => (
+                        <div key={i} className="aspect-square bg-slate-100 rounded-lg flex items-center justify-center">
+                          <Icon className="w-4 h-4 text-slate-400" />
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Signature */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="flex items-center justify-between pt-3 border-t border-slate-200"
+                  >
+                    <div>
+                      <p className="text-slate-500 text-[9px]">Digital Signature</p>
+                      <p className="text-slate-800 text-[10px] font-medium italic">M. Rodriguez</p>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-emerald-50 px-2 py-1 rounded-md">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                      <span className="text-emerald-700 text-[9px] font-medium">Verified</span>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
