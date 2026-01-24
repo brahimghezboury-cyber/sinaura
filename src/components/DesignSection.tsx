@@ -12,6 +12,7 @@ import RealTimeAlertsUI from "./RealTimeAlertsUI";
 import IoTIntegrationUI from "./IoTIntegrationUI";
 import CustomSettingsUI from "./CustomSettingsUI";
 import AutoProcurementUI from "./features/AutoProcurementUI";
+import AutoReportUI from "./features/AutoReportUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
@@ -331,6 +332,13 @@ const DesignSection = () => {
                 highlight: "automatically orders spare parts",
                 descriptionEnd: " from suppliers when needed.",
                 customUI: <AutoProcurementUI />,
+              },
+              {
+                title: "Auto Report",
+                description: "Generate comprehensive maintenance reports ",
+                highlight: "automatically at the end of each operation",
+                descriptionEnd: " with photos, checklists, and timestamps.",
+                customUI: <AutoReportUI />,
               },
             ].map((feature, index) => (
               <motion.div
