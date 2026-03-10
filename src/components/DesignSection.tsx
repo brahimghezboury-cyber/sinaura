@@ -13,6 +13,7 @@ import IoTIntegrationUI from "./IoTIntegrationUI";
 import CustomSettingsUI from "./CustomSettingsUI";
 import AutoProcurementUI from "./features/AutoProcurementUI";
 import AutoReportUI from "./features/AutoReportUI";
+import RemoteHMIPanelUI from "./features/RemoteHMIPanelUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
