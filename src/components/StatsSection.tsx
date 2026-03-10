@@ -73,7 +73,7 @@ const StatsSection = () => {
         </motion.div>
 
         {/* Stats grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}

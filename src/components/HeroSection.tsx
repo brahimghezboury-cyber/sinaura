@@ -36,8 +36,11 @@ const HeroSection = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-3">
                 AriA™
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-md">
-                Industrial AI meets Augmented Reality.
+              <p className="text-lg md:text-xl text-muted-foreground max-w-lg">
+                Revolutionize the way industry operates.
+              </p>
+              <p className="text-sm text-muted-foreground/70 max-w-lg mt-2">
+                One compact AI + AR platform powering predictive maintenance, real-time autonomous smart manufacturing, and advanced decision support.
               </p>
             </motion.div>
 
