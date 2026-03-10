@@ -1,85 +1,66 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const IntroSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-20%" });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
-  const textLines = [
-    { text: "AriA™ seamlessly", highlight: false },
-    { text: "blends", highlight: true },
-    { text: "AI intelligence", highlight: false },
-    { text: "with", highlight: false },
-    { text: "your physical workspace.", highlight: false },
-  ];
+  // Three text blocks that reveal as you scroll
+  const text1Opacity = useTransform(scrollYProgress, [0, 0.15, 0.3, 0.35], [0, 1, 1, 0.3]);
+  const text1Y = useTransform(scrollYProgress, [0, 0.15], [50, 0]);
 
-  const textLines2 = [
-    { text: "So you can predict,", highlight: false },
-    { text: "diagnose,", highlight: true },
-    { text: "and", highlight: false },
-    { text: "resolve issues", highlight: true },
-    { text: "before they happen.", highlight: false },
-  ];
+  const text2Opacity = useTransform(scrollYProgress, [0.3, 0.45, 0.6, 0.65], [0, 1, 1, 0.3]);
+  const text2Y = useTransform(scrollYProgress, [0.3, 0.45], [50, 0]);
 
-  const textLines3 = [
-    { text: "The era of", highlight: false },
-    { text: "intelligent manufacturing", highlight: true },
-    { text: "is here.", highlight: false },
-  ];
+  const text3Opacity = useTransform(scrollYProgress, [0.6, 0.75, 0.9], [0, 1, 1]);
+  const text3Y = useTransform(scrollYProgress, [0.6, 0.75], [50, 0]);
 
   return (
-    <section id="overview" ref={ref} className="py-24 md:py-40 bg-background">
-      <div className="container mx-auto max-w-4xl">
-        {/* First paragraph */}
-        <div className="mb-16 md:mb-24">
-          <p className="display-medium text-center leading-snug">
-            {textLines.map((line, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0.3 }}
-                animate={isInView ? { opacity: line.highlight ? 1 : 0.85 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.15 }}
-                className={line.highlight ? "text-foreground" : "text-muted-foreground"}
-              >
-                {line.text}{" "}
-              </motion.span>
-            ))}
-          </p>
-        </div>
+    <section id="overview" ref={containerRef} className="relative" style={{ height: "300vh" }}>
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden bg-background">
+        <div className="container mx-auto max-w-4xl px-6">
 
-        {/* Second paragraph */}
-        <div className="mb-16 md:mb-24">
-          <p className="display-medium text-center leading-snug">
-            {textLines2.map((line, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0.3 }}
-                animate={isInView ? { opacity: line.highlight ? 1 : 0.85 } : {}}
-                transition={{ duration: 0.8, delay: 0.8 + index * 0.15 }}
-                className={line.highlight ? "text-foreground" : "text-muted-foreground"}
-              >
-                {line.text}{" "}
-              </motion.span>
-            ))}
-          </p>
-        </div>
+          {/* Text 1 */}
+          <motion.div
+            style={{ opacity: text1Opacity, y: text1Y }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <p className="display-medium text-center leading-snug max-w-4xl px-6">
+              <span className="text-muted-foreground">AriA™ seamlessly </span>
+              <span className="text-foreground">blends </span>
+              <span className="text-muted-foreground">AI intelligence with your physical workspace.</span>
+            </p>
+          </motion.div>
 
-        {/* Third paragraph */}
-        <div>
-          <p className="display-medium text-center leading-snug">
-            {textLines3.map((line, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0.3 }}
-                animate={isInView ? { opacity: line.highlight ? 1 : 0.85 } : {}}
-                transition={{ duration: 0.8, delay: 1.6 + index * 0.15 }}
-                className={line.highlight ? "text-foreground" : "text-muted-foreground"}
-              >
-                {line.text}{" "}
-              </motion.span>
-            ))}
-          </p>
+          {/* Text 2 */}
+          <motion.div
+            style={{ opacity: text2Opacity, y: text2Y }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <p className="display-medium text-center leading-snug max-w-4xl px-6">
+              <span className="text-muted-foreground">So you can predict, </span>
+              <span className="text-foreground">diagnose, </span>
+              <span className="text-muted-foreground">and </span>
+              <span className="text-foreground">resolve issues </span>
+              <span className="text-muted-foreground">before they happen.</span>
+            </p>
+          </motion.div>
+
+          {/* Text 3 */}
+          <motion.div
+            style={{ opacity: text3Opacity, y: text3Y }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <p className="display-medium text-center leading-snug max-w-4xl px-6">
+              <span className="text-muted-foreground">The era of </span>
+              <span className="text-foreground">intelligent manufacturing </span>
+              <span className="text-muted-foreground">is here.</span>
+            </p>
+          </motion.div>
+
         </div>
       </div>
     </section>
