@@ -4,9 +4,10 @@ import { useRef, useState, useEffect } from "react";
 
 const stats = [
   { value: 55, suffix: "%", label: "Reduction in unplanned downtime", prefix: "-" },
-  { value: 50, suffix: "%", label: "Faster mean time to repair", prefix: "" },
-  { value: 60, suffix: "%", label: "Improvement in operational accuracy", prefix: "+" },
-  { value: 50, suffix: "%", label: "Reduction in training costs", prefix: "-" },
+  { value: 50, suffix: "%", label: "Reduction in Mean Time To Repair", prefix: "" },
+  { value: 60, suffix: "%", label: "Improvement in operations accuracy", prefix: "+" },
+  { value: 60, suffix: "%", label: "Reduction in training time & costs", prefix: "-" },
+  { value: 110, suffix: "%", label: "Overall plant management & efficiency", prefix: "+" },
 ];
 
 const AnimatedCounter = ({ 
@@ -72,7 +73,7 @@ const StatsSection = () => {
         </motion.div>
 
         {/* Stats grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}

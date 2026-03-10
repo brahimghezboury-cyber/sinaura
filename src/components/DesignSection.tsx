@@ -13,6 +13,7 @@ import IoTIntegrationUI from "./IoTIntegrationUI";
 import CustomSettingsUI from "./CustomSettingsUI";
 import AutoProcurementUI from "./features/AutoProcurementUI";
 import AutoReportUI from "./features/AutoReportUI";
+import RemoteHMIPanelUI from "./features/RemoteHMIPanelUI";
 
 const DesignSection = () => {
   const ref = useRef(null);
@@ -339,6 +340,13 @@ const DesignSection = () => {
                 highlight: "automatically at the end of each operation",
                 descriptionEnd: " with photos, checklists, and timestamps.",
                 customUI: <AutoReportUI />,
+              },
+              {
+                title: "Remote HMI Panel",
+                description: "Control the line remotely with ",
+                highlight: "no interruptions",
+                descriptionEnd: ". Choose the panel and the information you need.",
+                customUI: <RemoteHMIPanelUI />,
               },
             ].map((feature, index) => (
               <motion.div
