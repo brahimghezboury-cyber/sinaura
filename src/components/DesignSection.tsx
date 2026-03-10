@@ -341,6 +341,13 @@ const DesignSection = () => {
                 descriptionEnd: " with photos, checklists, and timestamps.",
                 customUI: <AutoReportUI />,
               },
+              {
+                title: "Remote HMI Panel",
+                description: "Control the line remotely with ",
+                highlight: "no interruptions",
+                descriptionEnd: ". Choose the panel and the information you need.",
+                customUI: <RemoteHMIPanelUI />,
+              },
             ].map((feature, index) => (
               <motion.div
                 key={feature.title}
