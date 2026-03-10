@@ -31,6 +31,7 @@ const DifferentiatorSection = () => {
 
   // Rotating hue for ambient light
   const hueRotate = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const filterValue = useTransform(hueRotate, (v) => `hue-rotate(${v}deg)`);
 
   return (
     <section ref={containerRef} className="relative" style={{ height: "400vh" }}>
@@ -39,7 +40,7 @@ const DifferentiatorSection = () => {
         {/* Animated ambient lights */}
         <motion.div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
-            style={{ filter: useTransform(hueRotate, (v) => `hue-rotate(${v}deg)`) }}
+            style={{ filter: filterValue }}
           >
             <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full bg-cyan-500/8 blur-[180px]" />
             <div className="absolute bottom-1/4 right-1/3 w-[500px] h-[500px] rounded-full bg-blue-600/6 blur-[150px]" />
